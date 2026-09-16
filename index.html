@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>Bé Vui Vận Động – Game Vận Động Cho Bé 4-6 Tuổi</title>
-<meta name="description" content="Game vận động cho bé 4-6 tuổi qua camera điện thoại: đập bóng, bắt màu, tạo dáng, ghép hình. Chiếu lên tivi, chơi cùng cả nhà, 30 cấp độ từ dễ đến khó.">
+<meta name="description" content="Game vận động cho bé 4-6 tuổi qua camera điện thoại: đập bóng, bắt màu, tạo dáng, ghép hình, chạy vượt chướng ngại 1-2 người. Chiếu lên tivi, 30 cấp độ từ dễ đến khó.">
 <link rel="canonical" href="https://be-vui-van-dong.vercel.app/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Bé Vui Vận Động">
 <meta property="og:title" content="Bé Vui Vận Động – Game Vận Động Cho Bé 4-6 Tuổi">
-<meta property="og:description" content="Game vận động cho bé 4-6 tuổi qua camera điện thoại: đập bóng, bắt màu, tạo dáng, ghép hình. Chiếu lên tivi, chơi cùng cả nhà, 30 cấp độ từ dễ đến khó.">
+<meta property="og:description" content="Game vận động cho bé 4-6 tuổi qua camera điện thoại: đập bóng, bắt màu, tạo dáng, ghép hình, chạy vượt chướng ngại 1-2 người. Chiếu lên tivi, 30 cấp độ từ dễ đến khó.">
 <meta property="og:image" content="https://be-vui-van-dong.vercel.app/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -19,7 +19,7 @@
 <meta property="og:locale" content="vi_VN">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Bé Vui Vận Động – Game Vận Động Cho Bé 4-6 Tuổi">
-<meta name="twitter:description" content="Game vận động cho bé 4-6 tuổi qua camera điện thoại: đập bóng, bắt màu, tạo dáng, ghép hình.">
+<meta name="twitter:description" content="Game vận động cho bé 4-6 tuổi qua camera điện thoại, 30 cấp độ, 5 trò chơi khác nhau.">
 <meta name="theme-color" content="#7FD8F7">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap">
 <style>
@@ -83,6 +83,11 @@
 
   .modeGrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:100%;max-width:580px}
   @media (max-width:560px){.modeGrid{grid-template-columns:1fr}}
+  .modeCard.wide{grid-column:1/-1;flex-direction:row;align-items:center;gap:16px;text-align:left}
+  .modeCard.wide .mcIcon{font-size:38px;flex:none}
+  .mcBody{display:flex;flex-direction:column;gap:6px;flex:1;min-width:0}
+  .modeCard.wide .mcDesc{min-height:0}
+  @media (max-width:560px){.modeCard.wide{flex-direction:column;align-items:flex-start}}
   .modeCard{
     position:relative;text-align:left;cursor:pointer;border:3px solid transparent;
     background:#fff;border-radius:22px;padding:16px 16px 14px;font-family:inherit;
@@ -161,7 +166,7 @@
   "@context": "https://schema.org",
   "@type": "VideoGame",
   "name": "Bé Vui Vận Động",
-  "description": "Game vận động cho bé 4-6 tuổi qua camera điện thoại: đập bóng, bắt màu, tạo dáng, ghép hình. Chiếu lên tivi, 30 cấp độ tăng dần từ dễ đến khó.",
+  "description": "Game vận động cho bé 4-6 tuổi qua camera điện thoại: đập bóng, bắt màu, tạo dáng, ghép hình, chạy vượt chướng ngại 1-2 người. 30 cấp độ tăng dần từ dễ đến khó.",
   "genre": ["Educational", "Kids", "Motion"],
   "gamePlatform": "Web Browser",
   "audience": { "@type": "PeopleAudience", "suggestedMinAge": 4, "suggestedMaxAge": 6 },
@@ -238,6 +243,19 @@
         <span class="mcSkill" style="color:#5A3FC0;background:#EBE3FF">🔍 Quan sát &amp; ghi nhớ</span>
         <span class="mcBest" data-best="match"></span>
       </button>
+      <button class="modeCard wide" data-mode="race" style="--accent:#FFA53D">
+        <span class="mcIcon">🐰🚧🐢</span>
+        <span class="mcBody">
+          <span class="mcName">Chạy Vượt Chướng Ngại</span>
+          <span class="mcDesc">Con thú cứ chạy tới, gặp chướng ngại phải làm đúng động tác mới qua được: nhảy lên, cúi xuống, hoặc chạy thật nhanh — sai động tác là thua ngay! Chơi 1 mình hoặc rủ bạn đứng 2 bên camera đấu trực tiếp.</span>
+          <span class="mcSkill" style="color:#B8590A;background:#FFEBD6">🏃 Phản xạ &amp; 1-2 người chơi</span>
+          <span class="mcBest" data-best="race"></span>
+          <span class="mcBest" data-best="race2p"></span>
+        </span>
+      </button>
+    </div>
+    <div class="sens" id="racePlayersRow" hidden>Số người chơi:
+      <button class="sbtn" data-pc="1">1 người</button><button class="sbtn" data-pc="2">2 người (đứng 2 bên)</button>
     </div>
     <div class="sens">Độ nhạy camera:
       <button class="sbtn" data-v="0">Thấp</button><button class="sbtn" data-v="1">Vừa</button><button class="sbtn" data-v="2">Cao</button>
@@ -404,6 +422,20 @@ let poseTAcc=0,poseTimeLimit=4,poseZoneLastActive={},poseResult=null,poseFeedT=0
 /* ---- match mode (kiểu Pikachu: chọn 2 hình giống nhau) ---- */
 let matchCols=3,matchRows=2,matchTiles=[],matchSel=[],matchLastKey=null,matchCooldown=0;
 let matchWrong=0,matchMatchedCount=0,matchTotalPairs=3,matchWrongT=0,matchOverPending=false;
+
+/* ---- race mode: chạy vượt chướng ngại, 1 hoặc 2 người chơi ---- */
+const RACE_ANIMALS=['🐰','🐢','🐆','🐕','🐎','🦘','🐔','🦆'];
+const OBSTACLES=[
+  {type:'jump',  label:'NHẢY LÊN!',    icon:'⬆️', color:'#2FBF9F'},
+  {type:'duck',  label:'CÚI XUỐNG!',   icon:'⬇️', color:'#FF6B9A'},
+  {type:'sprint',label:'CHẠY NHANH!',  icon:'💨', color:'#FF8A3D'},
+];
+let playerCount=+store.get('bv_race_pc','1'); if(!(playerCount===1||playerCount===2))playerCount=1;
+let raceP1=null, raceP2=null, raceObstacle=null, raceApproach=1, raceGapT=1, raceWinner=null;
+let winsLeft=+store.get('bv_race_left','0')||0, winsRight=+store.get('bv_race_right','0')||0;
+function raceApproachTime(){ return lerp(3.6,1.9,lvlT()); }
+function raceObstaclesNeeded(){ return 2+Math.floor((level-1)/3); }
+function newRunner(animal){ return {animal,alive:true,cleared:0,upperT:9,lowerT:9,fullT:9,effort:0,fallT:0}; }
 
 /* ---- music ---- */
 let musicPref=store.get('bv_music','1')==='1',musicRunning=false,musicNext=0,musicStep=0;
@@ -912,6 +944,122 @@ function drawMatchScene(){
   }
 }
 
+/* ============ race mode: chạy vượt chướng ngại ============ */
+function beginRace(){
+  const pool=RACE_ANIMALS.slice();
+  raceP1=newRunner(pool.splice(Math.random()*pool.length|0,1)[0]);
+  raceP2=playerCount===2?newRunner(pool.splice(Math.random()*pool.length|0,1)[0]):null;
+  raceObstacle=null; raceApproach=1; raceGapT=1; raceWinner=null;
+}
+function laneZone(side){ return side==='left'?[0,0.5]:[0.5,1]; }
+function updateRunnerSignals(p,side,dt){
+  if(!p||!p.alive)return;
+  p.upperT+=dt; p.lowerT+=dt; p.fullT+=dt;
+  if(!camOn)return;
+  const [x0,x1]=laneZone(side);
+  const dUp=zoneDensity(x0,0.05,x1,0.42);
+  const dLow=zoneDensity(x0,0.55,x1,0.95);
+  const dAll=zoneDensity(x0,0.05,x1,0.95);
+  const TH=ZONE_TH[sens];
+  p.effort=Math.max(dUp,dLow,dAll);
+  if(dUp>=TH*1.4 && dUp>dLow*1.3) p.upperT=0;
+  if(dLow>=TH*1.4 && dLow>dUp*1.3) p.lowerT=0;
+  if(dAll>=TH*1.8) p.fullT=0;
+}
+function judgeRunner(p){
+  if(!p||!p.alive)return;
+  const t=raceObstacle.type;
+  const ok=(t==='jump'&&p.upperT<0.7)||(t==='duck'&&p.lowerT<0.7)||(t==='sprint'&&p.fullT<0.7);
+  if(ok){ p.cleared++; sPop(false); }
+  else{ p.alive=false; p.fallT=0; sBuzz(); try{if(navigator.vibrate)navigator.vibrate([20,60,20])}catch(e){} }
+}
+function checkRaceEnd(){
+  if(playerCount===1){
+    if(!raceP1.alive){ endGame(); }
+    else if(raceP1.cleared>=raceObstaclesNeeded()){ levelUp(); }
+  }else{
+    if(!raceP1.alive||!raceP2.alive){
+      if(raceP1.alive&&!raceP2.alive)raceWinner='left';
+      else if(raceP2.alive&&!raceP1.alive)raceWinner='right';
+      else raceWinner='tie';
+      if(raceWinner==='left'){winsLeft++;store.set('bv_race_left',String(winsLeft));}
+      else if(raceWinner==='right'){winsRight++;store.set('bv_race_right',String(winsRight));}
+      endGame();
+    }
+  }
+}
+function updateRace(dt){
+  if(raceWinner)return;
+  if(!raceObstacle){
+    raceGapT-=dt;
+    if(raceGapT<=0){ raceObstacle=OBSTACLES[Math.random()*OBSTACLES.length|0]; raceApproach=1; }
+  }else{
+    raceApproach-=dt/raceApproachTime();
+    if(raceApproach<=0){
+      judgeRunner(raceP1); if(playerCount===2)judgeRunner(raceP2);
+      raceObstacle=null; raceGapT=1.1;
+      checkRaceEnd();
+      if(raceWinner||state!=='play')return;
+    }
+  }
+  updateRunnerSignals(raceP1,'left',dt);
+  if(playerCount===2)updateRunnerSignals(raceP2,'right',dt);
+  if(!raceP1.alive)raceP1.fallT+=dt;
+  if(raceP2&&!raceP2.alive)raceP2.fallT+=dt;
+}
+function drawRunner(cx,cy,size,p){
+  ctx.save();ctx.translate(cx,cy);
+  if(!p.alive){
+    ctx.rotate(Math.min(0.5,p.fallT*2)*-1);
+    ctx.globalAlpha=Math.max(0.35,1-p.fallT*0.6);
+  }else{
+    const bob=Math.sin(frame*0.3*(0.5+p.effort*4))*size*0.08*Math.min(1,p.effort*4+0.2);
+    ctx.translate(0,bob);
+  }
+  ctx.font=(size)+'px sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle';
+  ctx.fillText(p.animal,0,0);
+  ctx.restore();
+}
+function drawLane(y0,y1,p,label){
+  const x0=W*0.06,x1=W*0.94,cy=(y0+y1)/2,laneH=y1-y0;
+  ctx.save();
+  roundRectPath(x0,y0,x1-x0,laneH,16);
+  ctx.fillStyle='rgba(255,255,255,.4)'; ctx.fill();
+  ctx.font="700 "+Math.round(laneH*0.2)+"px 'Baloo 2',sans-serif";
+  ctx.textAlign='left'; ctx.fillStyle='rgba(20,69,107,.6)';
+  ctx.fillText(label,x0+4,y0-8);
+  const runnerX=x0+laneH*0.55;
+  if(raceObstacle && p.alive){
+    const ox=runnerX+(x1-40-runnerX)*raceApproach;
+    const osize=laneH*0.5;
+    roundRectPath(ox-osize*0.55,cy-osize*0.5,osize*1.1,osize,14);
+    ctx.fillStyle=hexA(raceObstacle.color,0.9); ctx.fill();
+    ctx.font=(osize*0.55)+'px sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillText(raceObstacle.icon,ox,cy-osize*0.05);
+    if(raceApproach>0.55){
+      ctx.font="800 "+Math.round(laneH*0.16)+"px 'Baloo 2',sans-serif";
+      ctx.fillStyle=raceObstacle.color;
+      ctx.fillText(raceObstacle.label,ox,cy-osize*0.75);
+    }
+  }
+  drawRunner(runnerX,cy,laneH*0.62,p);
+  if(!p.alive){
+    ctx.font="800 "+Math.round(laneH*0.22)+"px 'Baloo 2',sans-serif";
+    ctx.fillStyle='#E14D5B'; ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillText('Vấp ngã rồi! 😵',(x0+x1)/2,y1+laneH*0.32);
+  }
+  ctx.restore();
+}
+function drawRaceScene(){
+  if(!raceP1)return;
+  if(playerCount===1){
+    drawLane(H*0.28,H*0.72,raceP1,'Bé — đã qua '+raceP1.cleared+'/'+raceObstaclesNeeded());
+  }else{
+    drawLane(H*0.14,H*0.46,raceP1,'Bên TRÁI');
+    drawLane(H*0.54,H*0.86,raceP2,'Bên PHẢI');
+  }
+}
+
 function puff(o){
   const px=o.x*W,py=o.y*H;
   for(let k=0;k<6;k++){
@@ -1029,6 +1177,7 @@ function render(t){
     if(mode==='bubbles'||mode==='colors')drawObjs();
     else if(mode==='pose')drawPoseScene();
     else if(mode==='match')drawMatchScene();
+    else if(mode==='race')drawRaceScene();
   }
   drawParts();drawFloats();
   frame++;
@@ -1043,26 +1192,42 @@ function hideAll(){
 function paintBests(){
   document.querySelectorAll('[data-best]').forEach(el=>{
     const m=el.dataset.best;
+    if(m==='race2p'){
+      if(winsLeft+winsRight<=0){el.hidden=true;return}
+      el.hidden=false;
+      el.textContent='🏆 2 người: Trái '+winsLeft+' – '+winsRight+' Phải';
+      return;
+    }
     const v=+store.get('bv_best_'+m,'0')||0;
     if(v<=0){el.hidden=true;return}
     el.hidden=false;
-    el.textContent = '🏆 Cấp cao nhất: '+v+(v>=MAX_LEVEL?' 🎉':'');
+    el.textContent = (m==='race'?'🏆 1 người — cấp cao nhất: ':'🏆 Cấp cao nhất: ')+v+(v>=MAX_LEVEL?' 🎉':'');
   });
 }
 function introText(){
   if(mode==='bubbles')return 'Vẫy tay đập vỡ trái cây, né chú sâu nghịch ngợm nhé!';
   if(mode==='colors')return 'Nhìn màu ở trên rồi chỉ đập đúng quả cùng màu thôi nhé!';
   if(mode==='pose')return 'Nhìn hình rồi giơ tay, cúi người bắt chước y hệt nào!';
-  return 'Nhìn kỹ rồi đưa tay hoặc chạm vào 2 hình giống nhau nhé!';
+  if(mode==='match')return 'Nhìn kỹ rồi đưa tay hoặc chạm vào 2 hình giống nhau nhé!';
+  return playerCount===2
+    ? 'Mỗi bé đứng một bên camera. Gặp chữ NHẢY thì nhảy lên, CÚI thì cúi xuống, CHẠY NHANH thì vận động thật mạnh — sai là thua!'
+    : 'Gặp chữ NHẢY thì nhảy lên, CÚI thì cúi xuống, CHẠY NHANH thì vận động thật mạnh nhé — sai động tác là thua đó!';
 }
 function goText(){
   if(mode==='bubbles')return 'Vẫy tay đập bóng nào! 👋';
   if(mode==='colors')return 'Đập đúng màu nào! 🎨';
   if(mode==='pose')return 'Tạo dáng thật đẹp nào! 🤸';
-  return 'Tìm cặp giống nhau nào! 🔍';
+  if(mode==='match')return 'Tìm cặp giống nhau nào! 🔍';
+  return 'Sẵn sàng... Chạy đi nào! 🏃';
 }
 function updateHudChrome(){
   $('levelNum').textContent=level;
+  if(mode==='race'){
+    $('scorePill').hidden=true; $('heartsPill').hidden=true; $('targetPill').hidden=true; $('timePill').hidden=true;
+    $('levelPill').hidden = playerCount===2;
+    return;
+  }
+  $('levelPill').hidden=false;
   $('scorePill').hidden = mode==='pose';
   $('scoreIcon').textContent = mode==='bubbles'?'⭐':mode==='colors'?'🎨':'🔍';
   if(mode==='bubbles'||mode==='colors'){
@@ -1124,8 +1289,10 @@ function beginLevel(){
     if(mode==='colors'){ targetColor=pickTargetColor(null); targetT=0; renderTarget(); }
   }else if(mode==='pose'){
     nextPose();
-  }else{ // match
+  }else if(mode==='match'){
     genMatchGrid(); hearts=heartsMax=MATCH_LIVES;
+  }else{ // race
+    beginRace();
   }
   updateHudChrome();
 }
@@ -1153,6 +1320,18 @@ function endGame(won){
   if(state==='end')return;
   state='end';
   stopMusic();
+  if(mode==='race'&&playerCount===2){
+    sFanfare();confetti();
+    const label = raceWinner==='tie'?'Hoà rồi!':raceWinner==='left'?'Bên TRÁI thắng!':'Bên PHẢI thắng!';
+    setTimeout(()=>{
+      if(state!=='end')return;
+      $('endScore').textContent=label;
+      $('endBest').textContent='🏆 Tỉ số chung: Trái '+winsLeft+' – '+winsRight+' Phải';
+      $('endTitle').textContent='Về đích rồi! 🏁';
+      $('hud').hidden=true; $('endS').hidden=false;
+    },800);
+    return;
+  }
   if(mode==='bubbles'||mode==='colors'){for(const o of objs)puff(o);objs=[];}
   const bestKey='bv_best_'+mode;
   const bestVal=+store.get(bestKey,'0')||0;
@@ -1224,6 +1403,7 @@ function loop(t){
         if(remainMs<=0)endGame();
       }else if(mode==='pose')updatePose(dt);
       else if(mode==='match')updateMatch(dt);
+      else if(mode==='race')updateRace(dt);
     }
     updateHudChrome();
   }
@@ -1258,6 +1438,12 @@ canvas.addEventListener('pointerdown',e=>{
       const r=matchZoneRect(i,matchCols,matchRows);
       if(x>=r[0]&&x<=r[2]&&y>=r[1]&&y<=r[3]){matchPick(i);break}
     }
+  }else if(mode==='race'&&!camOn){
+    const x=e.clientX/W,y=e.clientY/H;
+    const p = (playerCount===1||x<0.5) ? raceP1 : raceP2;
+    if(p&&p.alive){
+      if(y<0.4)p.upperT=0; else if(y>0.6)p.lowerT=0; else p.fullT=0;
+    }
   }
 });
 
@@ -1265,7 +1451,14 @@ document.querySelectorAll('.modeCard').forEach(el=>{
   el.addEventListener('click',()=>{
     selectedMode=el.dataset.mode;
     document.querySelectorAll('.modeCard').forEach(c=>c.classList.toggle('sel',c===el));
+    $('racePlayersRow').hidden = selectedMode!=='race';
   });
+});
+function paintPlayerCount(){
+  document.querySelectorAll('.sbtn[data-pc]').forEach(b=>b.classList.toggle('on',+b.dataset.pc===playerCount));
+}
+document.querySelectorAll('.sbtn[data-pc]').forEach(b=>{
+  b.addEventListener('click',()=>{playerCount=+b.dataset.pc;store.set('bv_race_pc',String(playerCount));paintPlayerCount()});
 });
 
 $('btnPlay').addEventListener('click',()=>startGame(true));
@@ -1330,11 +1523,12 @@ window.BV={
   get match(){return {tiles:matchTiles,sel:matchSel,wrong:matchWrong,matched:matchMatchedCount,total:matchTotalPairs,cols:matchCols,rows:matchRows,lastKey:matchLastKey,cooldown:matchCooldown,wrongT:matchWrongT}},
   zoneActive(k){return zoneActive(k)},
   zoneDensity(k){const z=ZONES[k];return zoneDensity(z[0],z[1],z[2],z[3])},
-  matchZoneActive(i){return zoneActiveRect(matchZoneRect(i,matchCols,matchRows))}
+  matchZoneActive(i){return zoneActiveRect(matchZoneRect(i,matchCols,matchRows))},
+  get race(){return {p1:raceP1&&{...raceP1},p2:raceP2&&{...raceP2},obstacle:raceObstacle,approach:raceApproach,winner:raceWinner,playerCount,winsLeft,winsRight}}
 };
 
 /* ============ boot ============ */
-resize();paintBests();paintSens();updMute();updMusicBtn();
+resize();paintBests();paintSens();paintPlayerCount();updMute();updMusicBtn();
 requestAnimationFrame(loop);
 </script>
 </body>
