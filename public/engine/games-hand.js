@@ -96,7 +96,7 @@
       const q=FG.q;if(!q)return;
       const md=minDim;
       // bảng câu hỏi
-      const pw=Math.min(W*0.86,md*1.1),ph=md*0.34,px=W/2-pw/2,py=md*0.11;
+      const pw=Math.min(W*0.86,md*1.1),ph=md*0.34,px=W/2-pw/2,py=TOPY();
       roundRectPath(px,py,pw,ph,md*0.04);ctx.fillStyle='rgba(255,255,255,.88)';ctx.fill();
       ctx.lineWidth=md*0.008;ctx.strokeStyle=FG.match?'#35E08B':'#8B6FEA';ctx.stroke();
       ctx.textAlign='center';ctx.textBaseline='middle';

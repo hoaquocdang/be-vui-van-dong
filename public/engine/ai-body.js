@@ -9,7 +9,9 @@ const Body=(()=>{
   const RUN_JOINTS=[13,14,15,16,25,26,27,28];
   const JUMP_UP=0.17,JUMP_FAST=0.10,DUCK_DOWN=0.22,RUN_ENERGY=1.0;
 
-  function signals(){
+  /** o.recenter=false: không tự dời đường nền khi bé ngồi / đứng yên lâu (dùng cho trò giữ tư thế lâu như Nhịp Squat) */
+  function signals(o){
+    o=o||{};
     const S={
       baseS:0,baseH:0,baseT:0,n:0,farT:0,lastB:null,lastT:0,lastSY:0,vs:0,
       jump:false,duck:false,run:false,jumpAmt:0,duckAmt:0,jumpAt:-1e9,duckAt:-1e9,
@@ -32,7 +34,7 @@ const Body=(()=>{
         const calm=Math.abs(this.vs)<0.35,near=up<0.12&&down<0.12;
         if(this.n<12){const a=0.3;this.baseS+=(sy-this.baseS)*a;this.baseH+=(hy-this.baseH)*a;this.baseT+=(b.torso-this.baseT)*a;this.n++}
         else if(calm&&near){const a=0.05;this.baseS+=(sy-this.baseS)*a;this.baseH+=(hy-this.baseH)*a;this.baseT+=(b.torso-this.baseT)*a;this.farT=0}
-        else if(calm){this.farT+=dt;if(this.farT>2.5){this.n=0;this.farT=0}}
+        else if(calm){this.farT+=dt;if(o.recenter!==false&&this.farT>2.5){this.n=0;this.farT=0}}
         else this.farT=0;
         this.jump=up>JUMP_UP||(up>JUMP_FAST&&this.vs<-0.9);
         this.duck=down>DUCK_DOWN;

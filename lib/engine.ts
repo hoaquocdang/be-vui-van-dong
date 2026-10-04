@@ -35,6 +35,14 @@ const FILES = [
   'games-lib.js',
   'games-body.js',
   'games-hand.js',
+  'games-run.js',
+  'games-run2.js',
+  'games-reach.js',
+  'games-reach2.js',
+  'games-fit.js',
+  'games-fit2.js',
+  'games-face.js',
+  'games-hand2.js',
 ];
 
 function loadScript(src: string): Promise<void> {
@@ -54,9 +62,8 @@ export function loadEngine(): Promise<void> {
   if (typeof window === 'undefined') return Promise.reject(new Error('Chỉ chạy trên trình duyệt'));
   if (window.BVApp?.ready) return Promise.resolve();
   if (!loading) {
-    loading = (async () => {
-      for (const f of FILES) await loadScript(`/engine/${f}?v=${BUILD}`);
-    })().catch((e) => {
+    // tạo thẻ <script> cùng lúc (async=false → tải song song nhưng chạy đúng thứ tự khai báo)
+    loading = Promise.all(FILES.map((f) => loadScript(`/engine/${f}?v=${BUILD}`))).then(() => undefined).catch((e) => {
       loading = null; // cho phép thử lại
       throw e;
     });

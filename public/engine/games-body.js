@@ -88,7 +88,7 @@
       roundRectPath(ctx.lineWidth/2,ctx.lineWidth/2,W-ctx.lineWidth,H-ctx.lineWidth,md*0.03);ctx.stroke();
       ctx.globalAlpha=1;
       // cột đèn
-      const bw=md*0.50,bh=md*0.15,bx=W/2-bw/2,by=md*0.115;
+      const bw=md*0.50,bh=md*0.15,bx=W/2-bw/2,by=Math.max(md*0.115,TOPY());
       roundRectPath(bx,by,bw,bh,bh*0.5);ctx.fillStyle='rgba(30,40,60,.92)';ctx.fill();
       const lamps=[['#FF4D5E','red'],['#FFC73D','warn'],['#2FD27C','green']];
       lamps.forEach((l,i)=>{

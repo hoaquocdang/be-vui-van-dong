@@ -31,6 +31,8 @@ function panel(x,y,w,h,r,fill,stroke,lw){
   if(stroke){ctx.lineWidth=lw||3;ctx.strokeStyle=stroke;ctx.stroke()}
 }
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+/** mép trên an toàn cho bảng chữ / thanh trạng thái, tránh các nút tròn điểm - cấp - thời gian ở trên cùng (kể cả điện thoại nằm ngang, cao ~380px) */
+const TOPY=()=>Math.max(minDim*0.1,H<500?50:66);
 const pick=a=>a[(Math.random()*a.length)|0];
 function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=(Math.random()*(i+1))|0;[a[i],a[j]]=[a[j],a[i]]}return a}
 function sample(a,n){return shuffle(a).slice(0,n)}
@@ -134,10 +136,10 @@ function touchedBy(cx,cy,r,o){
       return {hit:true,fx:c?cx-c.x:0,fy:c?cy-c.y:-1,sp:0.8,p:null};
     }
   }
-  // chuột / chạm màn hình
+  // chuột / chạm màn hình (một cú chạm không cần "vung nhanh"; riêng trò cắt cần vuốt thì truyền swipe:true)
   for(const p of Ptr.list()){
     if(p.kind!=='touch')continue;
-    if(o.minSpeed&&p.sp<o.minSpeed)continue;
+    if(o.minSpeed&&o.swipe&&p.sp<o.minSpeed)continue;
     if(Math.hypot(p.x-cx,p.y-cy)<r+p.r)return {hit:true,fx:cx-p.x,fy:cy-p.y,sp:p.sp,p};
   }
   return {hit:false};
@@ -145,11 +147,18 @@ function touchedBy(cx,cy,r,o){
 
 /* ---------- tín hiệu thân người cho các trò chạy: nhảy / cúi / chạy / vị trí đứng ---------- */
 const Sig={
-  make(side){
+  make(side,o){
     const S={
-      side,sig:Body.signals(),upperT:9,lowerT:9,fullT:9,ok:false,x:0.5,
-      jump:false,duck:false,run:false,jumpEdge:false,duckEdge:false,_pj:false,_pd:false,energy:0,
-      reset(){this.sig.reset();this.upperT=this.lowerT=this.fullT=9;this._pj=this._pd=false},
+      side,sig:Body.signals(o),upperT:9,lowerT:9,fullT:9,ok:false,x:0.5,
+      jump:false,duck:false,run:false,jumpEdge:false,duckEdge:false,_pj:false,_pd:false,energy:0,jumpAt:-1e9,duckAt:-1e9,x0:null,
+      reset(){this.sig.reset();this.upperT=this.lowerT=this.fullT=9;this._pj=this._pd=false;this.x0=null},
+      /** vị trí đứng so với chỗ đứng ban đầu (−0,5..0,5): âm = sang trái màn hình; tự hiệu chỉnh quanh chỗ bé đứng */
+      lean(dt){
+        if(this.x0==null)this.x0=this.x;
+        const d=this.x-this.x0;
+        if(Math.abs(d)<0.05)this.x0+=d*Math.min(1,dt*0.6);   // đứng giữa lâu thì dời tâm theo
+        return d;
+      },
       update(dt){
         this.upperT+=dt;this.lowerT+=dt;this.fullT+=dt;
         let j=false,d=false,r=false;
@@ -170,6 +179,9 @@ const Sig={
         }
         this.jumpEdge=j&&!this._pj;this.duckEdge=d&&!this._pd;this._pj=j;this._pd=d;
         this.jump=j;this.duck=d;this.run=r;
+        const now=performance.now();
+        if(j)this.jumpAt=now;
+        if(d)this.duckAt=now;
         return this;
       },
     };
@@ -265,3 +277,12 @@ const QUIZ=(()=>{
   const TOPICS=['count','math','color','animal','shape','space','letter'];
   return {make,TOPICS,ANIMALS,COLORS,SHAPES,FRUITS};
 })();
+
+/** vẽ con trỏ AI (cổ tay / đầu ngón tay) bằng một emoji, để bé thấy máy đang "thấy tay" ở đâu */
+function drawPtrs(ch,size){
+  if(!useAI)return;
+  for(const p of Ptr.list()){
+    if(p.kind==='touch'&&!p.down)continue;
+    emo(ch||'✋',p.x,p.y,size||minDim*0.07,0,0.92);
+  }
+}

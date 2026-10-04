@@ -192,6 +192,7 @@ const sLevelUp=()=>{tone(660,880,.15,.2,'triangle');tone(880,1175,.2,.2,'triangl
 /* ---- nhạc nền tự soạn (không dùng nhạc có bản quyền) ---- */
 const BPM=124, STEP=60/BPM/4;
 function startMusic(){
+  const G=GAMES[mode]; if(G&&G.music===false)return;   // trò tự phát nhạc / tiếng trống riêng thì không bật nhạc nền
   if(!musicPref)return; const a=ac(); if(!a)return;
   musicStep=0; musicNext=a.currentTime+0.05; musicRunning=true;
 }

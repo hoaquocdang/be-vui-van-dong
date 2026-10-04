@@ -31,6 +31,6 @@ export function fitDesc(text: string, max = 155): string {
   if (t.length <= max) return t;
   const cut = t.slice(0, max);
   const sentence = Math.max(cut.lastIndexOf('. '), cut.lastIndexOf('! '), cut.lastIndexOf('? '));
-  if (sentence > max * 0.6) return cut.slice(0, sentence + 1);
+  if (sentence >= 120) return cut.slice(0, sentence + 1);   // ưu tiên dừng ở hết câu, nhưng không để mô tả ngắn hơn ~120 ký tự
   return cut.slice(0, cut.lastIndexOf(' ')).replace(/[,;:—-]$/, '') + '…';
 }

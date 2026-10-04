@@ -144,7 +144,7 @@ a{color:inherit}
     max-width:min(92vw,520px);text-align:center;pointer-events:none;
   }
   .lostHint{
-    position:fixed;left:50%;bottom:max(18px,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:11;
+    position:fixed;left:50%;top:46%;transform:translate(-50%,-50%);z-index:11;
     background:rgba(255,255,255,.95);color:var(--ink);font-weight:800;font-size:clamp(15px,2.6vmin,22px);
     padding:10px 22px;border-radius:999px;box-shadow:0 5px 0 rgba(20,69,107,.18);pointer-events:none;max-width:92vw;text-align:center;
   }
@@ -244,3 +244,12 @@ dialog.dlg .card{max-height:calc(100dvh - 40px);overflow:auto;max-width:none}
 .nav .brand{margin:0}
 
 .card .h2,.card p.dlgTitle{margin:0;font-size:26px;font-weight:800;line-height:1.2;color:var(--ink)}
+
+/* điện thoại nằm ngang (màn hình thấp): thu gọn nút điểm / cấp / thời gian cho đỡ che trò chơi */
+@media (max-height:500px){
+  .pill{font-size:20px;padding:4px 14px;top:max(6px,env(safe-area-inset-top))}
+  .pill.small{font-size:15px;padding:3px 12px}
+  .hudLeft{top:max(6px,env(safe-area-inset-top));gap:5px}
+  .hbtn{width:42px;height:42px;font-size:19px}
+  .hbtns{gap:7px}
+}

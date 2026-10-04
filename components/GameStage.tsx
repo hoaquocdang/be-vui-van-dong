@@ -13,5 +13,5 @@ export default function GameStage() {
   useEffect(() => {
     window.__bvLoad = loadEngine; // phục vụ kiểm thử tự động
   }, []);
-  return <div id="stage" hidden dangerouslySetInnerHTML={{ __html: STAGE_HTML }} />;
+  return <div id="stage" hidden suppressHydrationWarning dangerouslySetInnerHTML={{ __html: STAGE_HTML }} />;
 }
