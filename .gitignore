@@ -1,1 +1,9 @@
+node_modules/
+.next/
+out/
 .seo-ok
+public/_test/
+next-env.d.ts
+*.tsbuildinfo
+.env*.local
+.deploy-cache/

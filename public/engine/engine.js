@@ -1,317 +1,3 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Bé Vui Vận Động – Game Vận Động Cho Bé 4-6 Tuổi</title>
-<meta name="description" content="Game vận động cho bé 4-6 tuổi qua camera điện thoại: đập bóng, bắt màu, tạo dáng, ghép hình, chạy vượt chướng ngại 1-2 người. Chiếu lên tivi, 30 cấp độ từ dễ đến khó.">
-<link rel="canonical" href="https://be-vui-van-dong.vercel.app/">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Bé Vui Vận Động">
-<meta property="og:title" content="Bé Vui Vận Động – Game Vận Động Cho Bé 4-6 Tuổi">
-<meta property="og:description" content="Game vận động cho bé 4-6 tuổi qua camera điện thoại: đập bóng, bắt màu, tạo dáng, ghép hình, chạy vượt chướng ngại 1-2 người. Chiếu lên tivi, 30 cấp độ từ dễ đến khó.">
-<meta property="og:image" content="https://be-vui-van-dong.vercel.app/og-image.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Bé Vui Vận Động — game vận động cho bé qua camera điện thoại">
-<meta name="twitter:image" content="https://be-vui-van-dong.vercel.app/og-image.png">
-<meta property="og:url" content="https://be-vui-van-dong.vercel.app/">
-<meta property="og:locale" content="vi_VN">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Bé Vui Vận Động – Game Vận Động Cho Bé 4-6 Tuổi">
-<meta name="twitter:description" content="Game vận động cho bé 4-6 tuổi qua camera điện thoại, 30 cấp độ, 5 trò chơi khác nhau.">
-<meta name="theme-color" content="#7FD8F7">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap">
-<style>
-  [hidden]{display:none!important}
-  :root{
-    --sky1:#7FD8F7; --sky2:#EAFBFF;
-    --ink:#14456B; --ink-soft:#4A76A0;
-    --pop:#FF8A3D; --pop-dk:#D96A1E;
-    --sun:#FFD84D; --berry:#FF6B9A;
-    --teal:#2FBF9F; --violet:#8B6FEA; --danger:#E14D5B;
-    --card:#FFFFFF;
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{
-    margin:0; overflow:hidden; touch-action:manipulation;
-    background:linear-gradient(180deg,var(--sky1),var(--sky2));
-    color:var(--ink);
-    font-family:'Baloo 2','Segoe UI',system-ui,-apple-system,sans-serif;
-    -webkit-user-select:none; user-select:none;
-    -webkit-tap-highlight-color:transparent;
-  }
-  #cam{position:fixed;left:-20px;top:0;width:2px;height:2px;opacity:0;pointer-events:none}
-  #game{position:fixed;inset:0;z-index:1;display:block;width:100%;height:100%}
-
-  /* ===== overlays ===== */
-  .screen{
-    position:fixed;inset:0;z-index:20;
-    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
-    padding:28px 20px;overflow:auto;text-align:center;
-    background:linear-gradient(180deg,var(--sky1),var(--sky2));
-  }
-  .screen.glass{background:rgba(12,38,66,.55);backdrop-filter:blur(5px)}
-  .menu-inner{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:16px;max-width:520px;width:100%}
-  .deco{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
-  .deco span{position:absolute;left:var(--x);bottom:-90px;font-size:var(--s,42px);opacity:.8;animation:rise var(--t,15s) linear infinite;animation-delay:var(--d,0s)}
-  @keyframes rise{to{transform:translateY(-130vh) rotate(14deg)}}
-  .logo{font-size:clamp(64px,16vmin,110px);line-height:1;animation:boing 2.2s ease-in-out infinite}
-  @keyframes boing{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
-  @media (prefers-reduced-motion:reduce){.deco span,.logo,#timePill.low{animation:none!important}}
-  h1{margin:0;font-size:clamp(38px,9vw,58px);font-weight:800;line-height:1.05;text-wrap:balance;text-shadow:0 3px 0 rgba(255,255,255,.9)}
-  .tag{margin:0;font-size:18px;font-weight:600;color:var(--ink-soft);max-width:34ch;line-height:1.45}
-  .fine{margin:4px 0 0;font-size:13.5px;font-weight:500;color:var(--ink-soft);opacity:.85;max-width:42ch;line-height:1.5}
-
-  .btn{
-    appearance:none;border:none;cursor:pointer;font-family:inherit;font-weight:800;
-    border-radius:999px;color:#fff;background:var(--pop);
-    box-shadow:0 6px 0 var(--pop-dk);padding:16px 36px;font-size:22px;
-    transition:transform .08s,box-shadow .08s;
-  }
-  .btn:active{transform:translateY(4px);box-shadow:0 2px 0 var(--pop-dk)}
-  .btn:focus-visible{outline:4px solid rgba(255,138,61,.5);outline-offset:2px}
-  .btn.second{background:#fff;color:var(--ink);box-shadow:0 6px 0 rgba(20,69,107,.18);font-size:17px;padding:12px 26px;font-weight:700}
-  .btn.second:active{box-shadow:0 2px 0 rgba(20,69,107,.18)}
-  .btn.ghost{background:none;box-shadow:none;color:var(--ink-soft);font-size:15.5px;font-weight:700;padding:8px 14px;text-decoration:underline}
-  .btn.ghost:active{transform:translateY(2px)}
-
-  .sens{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;color:var(--ink-soft);flex-wrap:wrap;justify-content:center}
-  .sbtn{border:none;border-radius:999px;padding:7px 16px;font-family:inherit;font-weight:700;font-size:15px;background:rgba(255,255,255,.75);color:var(--ink-soft);cursor:pointer}
-  .sbtn.on{background:var(--ink);color:#fff}
-
-  .modeGrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:100%;max-width:580px}
-  @media (max-width:560px){.modeGrid{grid-template-columns:1fr}}
-  .modeCard.wide{grid-column:1/-1;flex-direction:row;align-items:center;gap:16px;text-align:left}
-  .modeCard.wide .mcIcon{font-size:38px;flex:none}
-  .mcBody{display:flex;flex-direction:column;gap:6px;flex:1;min-width:0}
-  .modeCard.wide .mcDesc{min-height:0}
-  @media (max-width:560px){.modeCard.wide{flex-direction:column;align-items:flex-start}}
-  .modeCard{
-    position:relative;text-align:left;cursor:pointer;border:3px solid transparent;
-    background:#fff;border-radius:22px;padding:16px 16px 14px;font-family:inherit;
-    display:flex;flex-direction:column;gap:6px;
-    box-shadow:0 6px 0 rgba(20,69,107,.10),0 14px 28px rgba(20,69,107,.14);
-  }
-  .modeCard.sel{transform:translateY(-2px);box-shadow:0 8px 0 var(--accent),0 18px 32px rgba(20,69,107,.2)}
-  .mcIcon{font-size:32px;line-height:1}
-  .mcName{font-size:18.5px;font-weight:800;color:var(--ink)}
-  .mcDesc{font-size:13px;color:var(--ink-soft);font-weight:500;line-height:1.4;min-height:2.8em}
-  .mcSkill{align-self:flex-start;margin-top:2px;font-size:11px;font-weight:800;letter-spacing:.02em;padding:3px 10px;border-radius:999px}
-  .mcBest{font-size:11px;font-weight:700;color:var(--ink-soft);opacity:.8;min-height:1.2em}
-
-  .card{
-    background:var(--card);border-radius:28px;padding:26px 22px;max-width:440px;width:100%;
-    box-shadow:0 12px 0 rgba(20,69,107,.12),0 24px 60px rgba(20,69,107,.22);
-    display:flex;flex-direction:column;gap:14px;color:var(--ink);
-  }
-  .card h2{margin:0;font-size:26px;font-weight:800}
-  .card p{margin:4px 0 0;font-size:15.5px;line-height:1.5;color:var(--ink-soft);font-weight:500}
-  .step{display:flex;gap:12px;text-align:left;align-items:flex-start}
-  .step b{font-size:16.5px}
-  .sicon{font-size:26px;line-height:1.3}
-  .tipbox{background:#FFF6DA;border-radius:16px;padding:12px 14px;font-size:14.5px;line-height:1.55;font-weight:600;color:#8A6D1F;text-align:left}
-  .bigscore{font-size:clamp(38px,11vw,76px);font-weight:800;color:var(--pop);line-height:1;font-variant-numeric:tabular-nums}
-  .bigemoji{font-size:56px;line-height:1}
-
-  /* ===== HUD ===== */
-  #hud{position:fixed;inset:0;z-index:10;pointer-events:none}
-  .pill{
-    position:absolute;top:max(12px,env(safe-area-inset-top));
-    background:rgba(255,255,255,.93);border-radius:999px;padding:7px 20px;
-    font-weight:800;font-size:27px;color:var(--ink);
-    box-shadow:0 4px 0 rgba(20,69,107,.15);
-    font-variant-numeric:tabular-nums;display:flex;align-items:center;gap:9px;
-  }
-  .hudLeft{position:absolute;top:max(12px,env(safe-area-inset-top));left:max(14px,env(safe-area-inset-left));display:flex;flex-direction:column;gap:8px;align-items:flex-start}
-  .pill.small{font-size:19px;padding:5px 16px}
-  #timePill{right:max(14px,env(safe-area-inset-right))}
-  #timePill.low{background:#FF5A6E;color:#fff;animation:pulse .5s infinite alternate}
-  @keyframes pulse{to{transform:scale(1.07)}}
-  .pill.target{border:3px solid var(--tcol,#fff)}
-  .pill.center{left:50%;top:max(12px,env(safe-area-inset-top));transform:translateX(-50%);background:rgba(139,111,234,.95);color:#fff}
-  .pill.center.bump{animation:bump .35s ease}
-  @keyframes bump{0%{transform:translateX(-50%) scale(1)}40%{transform:translateX(-50%) scale(1.18)}100%{transform:translateX(-50%) scale(1)}}
-  .hbtns{
-    position:absolute;bottom:max(14px,env(safe-area-inset-bottom));right:max(14px,env(safe-area-inset-right));
-    display:flex;flex-direction:column;gap:10px;pointer-events:auto;
-  }
-  .hbtn{
-    width:52px;height:52px;border-radius:50%;border:none;cursor:pointer;
-    background:rgba(255,255,255,.92);font-size:23px;line-height:1;
-    box-shadow:0 4px 0 rgba(20,69,107,.15);
-  }
-  .hbtn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(20,69,107,.15)}
-  .hbtn.off{opacity:.45}
-
-  #big{
-    position:fixed;inset:0;z-index:15;display:flex;flex-direction:column;gap:4px;align-items:center;justify-content:center;
-    pointer-events:none;font-weight:800;font-size:clamp(90px,24vmin,220px);color:#fff;
-    text-shadow:0 8px 0 rgba(20,69,107,.35),0 16px 44px rgba(0,0,0,.35);text-align:center;padding:0 20px;
-  }
-  #big.small{font-size:clamp(30px,7.5vmin,58px)}
-  #bigSub{font-size:clamp(16px,3.2vmin,24px);font-weight:700;max-width:30ch;line-height:1.4;
-    text-shadow:0 2px 0 rgba(20,69,107,.4),0 6px 18px rgba(0,0,0,.35)}
-
-  .spinner{
-    width:54px;height:54px;border-radius:50%;
-    border:6px solid rgba(255,255,255,.6);border-top-color:var(--pop);
-    animation:spin 1s linear infinite;
-  }
-  @keyframes spin{to{transform:rotate(360deg)}}
-</style>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "VideoGame",
-  "name": "Bé Vui Vận Động",
-  "description": "Game vận động cho bé 4-6 tuổi qua camera điện thoại: đập bóng, bắt màu, tạo dáng, ghép hình, chạy vượt chướng ngại 1-2 người. 30 cấp độ tăng dần từ dễ đến khó.",
-  "genre": ["Educational", "Kids", "Motion"],
-  "gamePlatform": "Web Browser",
-  "audience": { "@type": "PeopleAudience", "suggestedMinAge": 4, "suggestedMaxAge": 6 },
-  "inLanguage": "vi",
-  "applicationCategory": "GameApplication",
-  "operatingSystem": "Any",
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "VND" }
-}
-</script>
-</head>
-<body>
-
-<video id="cam" playsinline muted autoplay></video>
-<canvas id="game"></canvas>
-
-<div id="hud" hidden>
-  <div class="hudLeft">
-    <div class="pill" id="scorePill"><span id="scoreIcon">⭐</span> <span id="score">0</span></div>
-    <div class="pill small" id="heartsPill" hidden></div>
-    <div class="pill small target" id="targetPill" hidden><span id="targetEmoji">🍓</span>&nbsp;<span id="targetName">Đỏ</span></div>
-  </div>
-  <div class="pill center" id="levelPill">🏁 Cấp <span id="levelNum">1</span></div>
-  <div class="pill" id="timePill"><span id="timeIcon">⏱</span> <span id="time">60</span></div>
-  <div class="hbtns">
-    <button class="hbtn" id="btnExit"  title="Về trang chính">✖</button>
-    <button class="hbtn" id="btnMusic" title="Bật / tắt nhạc nền">🎵</button>
-    <button class="hbtn" id="btnMute"  title="Bật / tắt âm thanh">🔊</button>
-    <button class="hbtn" id="btnFlip"  title="Đổi camera trước / sau">🔄</button>
-    <button class="hbtn" id="btnFull"  title="Toàn màn hình">⛶</button>
-  </div>
-</div>
-
-<div id="big" hidden><div id="bigNum"></div><div id="bigSub"></div></div>
-
-<div id="menu" class="screen">
-  <div class="deco" aria-hidden="true">
-    <span style="--x:6%;  --d:0s;  --t:15s; --s:44px">🎈</span>
-    <span style="--x:20%; --d:4s;  --t:18s; --s:34px">🍎</span>
-    <span style="--x:38%; --d:9s;  --t:16s; --s:40px">⭐</span>
-    <span style="--x:62%; --d:2s;  --t:19s; --s:36px">🍓</span>
-    <span style="--x:78%; --d:6s;  --t:14s; --s:46px">🎈</span>
-    <span style="--x:90%; --d:11s; --t:17s; --s:34px">🍊</span>
-  </div>
-  <div class="menu-inner wide" style="max-width:620px">
-    <div class="logo" aria-hidden="true">🤸</div>
-    <h1>Bé Vui Vận Động</h1>
-    <p class="tag">Camera nhìn thấy bé — chọn một trò để cùng vận động nào!</p>
-    <div class="modeGrid">
-      <button class="modeCard sel" data-mode="bubbles" style="--accent:#FF8A3D">
-        <span class="mcIcon">🍎⭐</span>
-        <span class="mcName">Đập Bóng Vui</span>
-        <span class="mcDesc">Vẫy tay đập vỡ trái cây, né chú sâu nghịch ngợm nhé!</span>
-        <span class="mcSkill" style="color:#D96A1E;background:#FFE9D6">⚡ Phản xạ nhanh</span>
-        <span class="mcBest" data-best="bubbles"></span>
-      </button>
-      <button class="modeCard" data-mode="colors" style="--accent:#FF6B9A">
-        <span class="mcIcon">🎨🍓</span>
-        <span class="mcName">Bắt Đúng Màu</span>
-        <span class="mcDesc">Chỉ đập trái cây đúng màu được yêu cầu ở trên thôi nhé!</span>
-        <span class="mcSkill" style="color:#C23B72;background:#FFE1EC">🎨 Nhận biết màu sắc</span>
-        <span class="mcBest" data-best="colors"></span>
-      </button>
-      <button class="modeCard" data-mode="pose" style="--accent:#2FBF9F">
-        <span class="mcIcon">🤸🧸</span>
-        <span class="mcName">Bé Tạo Dáng</span>
-        <span class="mcDesc">Nhìn hình rồi giơ tay, cúi người bắt chước y hệt nào!</span>
-        <span class="mcSkill" style="color:#12806A;background:#D8F5EE">🤸 Bắt chước &amp; phối hợp</span>
-        <span class="mcBest" data-best="pose"></span>
-      </button>
-      <button class="modeCard" data-mode="match" style="--accent:#8B6FEA">
-        <span class="mcIcon">🍓🍓</span>
-        <span class="mcName">Bé Ghép Đôi</span>
-        <span class="mcDesc">Nhìn kỹ rồi chạm vào 2 hình giống nhau, ghép hết cả bảng nhé!</span>
-        <span class="mcSkill" style="color:#5A3FC0;background:#EBE3FF">🔍 Quan sát &amp; ghi nhớ</span>
-        <span class="mcBest" data-best="match"></span>
-      </button>
-      <button class="modeCard wide" data-mode="race" style="--accent:#FFA53D">
-        <span class="mcIcon">🐰🚧🐢</span>
-        <span class="mcBody">
-          <span class="mcName">Chạy Vượt Chướng Ngại</span>
-          <span class="mcDesc">Con thú cứ chạy tới, gặp chướng ngại phải làm đúng động tác mới qua được: nhảy lên, cúi xuống, hoặc chạy thật nhanh — sai động tác là thua ngay! Chơi 1 mình hoặc rủ bạn đứng 2 bên camera đấu trực tiếp.</span>
-          <span class="mcSkill" style="color:#B8590A;background:#FFEBD6">🏃 Phản xạ &amp; 1-2 người chơi</span>
-          <span class="mcBest" data-best="race"></span>
-          <span class="mcBest" data-best="race2p"></span>
-        </span>
-      </button>
-    </div>
-    <div class="sens" id="racePlayersRow" hidden>Số người chơi:
-      <button class="sbtn" data-pc="1">1 người</button><button class="sbtn" data-pc="2">2 người (đứng 2 bên)</button>
-    </div>
-    <div class="sens">Độ nhạy camera:
-      <button class="sbtn" data-v="0">Thấp</button><button class="sbtn" data-v="1">Vừa</button><button class="sbtn" data-v="2">Cao</button>
-    </div>
-    <button class="btn" id="btnPlay">🎥 Bắt đầu chơi</button>
-    <button class="btn second" id="btnHow">📺 Cách chiếu lên tivi</button>
-    <button class="btn ghost" id="btnTouch">👆 Chơi thử bằng chạm (không cần camera)</button>
-    <p class="fine">🏁 Mỗi trò có 30 cấp — qua cấp là tự động khó hơn, không cần chọn độ khó trước.<br>Mẹo: đứng cách camera 1,5–2 m, nơi đủ sáng. Hình ảnh camera chỉ xử lý ngay trên máy — không gửi đi bất cứ đâu.<br>🎵 Nhạc nền do máy tự soạn ngay trên trình duyệt, không dùng nhạc có bản quyền.</p>
-  </div>
-</div>
-
-<div id="how" class="screen glass" hidden>
-  <div class="card">
-    <h2>Chiếu game lên tivi 📺</h2>
-    <div class="step"><span class="sicon">🤖</span><div><b>Điện thoại Android</b><p>Vuốt từ trên xuống mở Cài đặt nhanh → chọn <b>Trình chiếu / Cast / Smart View</b> → chọn tivi. Rồi dựng điện thoại dưới tivi, camera trước hướng về phía người chơi.</p></div></div>
-    <div class="step"><span class="sicon">🍏</span><div><b>iPhone / iPad</b><p>Mở Trung tâm điều khiển → <b>Phản chiếu màn hình</b> (AirPlay) → chọn tivi. Tivi cần hỗ trợ AirPlay 2 hoặc có Apple TV.</p></div></div>
-    <div class="step"><span class="sicon">💻</span><div><b>Laptop + cáp HDMI</b><p>Mở link game trên laptop có webcam, cắm HDMI sang tivi, chọn chế độ nhân đôi màn hình.</p></div></div>
-    <div class="tipbox">💡 Xoay ngang điện thoại trước khi chiếu • đứng xa camera 1,5–2 m • phòng đủ sáng • đập không nổ → tăng "Độ nhạy camera" lên Cao • bong bóng tự nổ → hạ xuống Thấp.</div>
-    <button class="btn" id="btnHowClose">Đã hiểu</button>
-  </div>
-</div>
-
-<div id="err" class="screen" hidden>
-  <div class="card">
-    <h2>😢 Chưa mở được camera</h2>
-    <p id="errMsg"></p>
-    <button class="btn" id="btnRetry">Thử lại camera</button>
-    <button class="btn second" id="btnErrTouch">👆 Chơi bằng chạm màn hình</button>
-  </div>
-</div>
-
-<div id="pauseS" class="screen glass" hidden>
-  <div class="card">
-    <h2>⏸ Tạm dừng</h2>
-    <p>Game dừng lại khi bé rời màn hình. Sẵn sàng chưa nào?</p>
-    <button class="btn" id="btnResume">Chơi tiếp ▶</button>
-  </div>
-</div>
-
-<div id="endS" class="screen glass" hidden>
-  <div class="card">
-    <div class="bigemoji" aria-hidden="true">🎉</div>
-    <h2 id="endTitle">Bé giỏi lắm!</h2>
-    <div class="bigscore" id="endScore">0</div>
-    <p id="endBest"></p>
-    <button class="btn" id="btnAgain">Chơi lại 🔁</button>
-    <button class="btn second" id="btnHome">Về trang chính</button>
-  </div>
-</div>
-
-<div id="loading" class="screen" hidden>
-  <div class="spinner" aria-hidden="true"></div>
-  <p class="tag">Đang mở camera…<br>Hãy chọn <b>Cho phép</b> nếu trình duyệt hỏi nhé!</p>
-</div>
-
-<script>
 'use strict';
 /* ============ helpers ============ */
 const $=id=>document.getElementById(id);
@@ -353,6 +39,24 @@ const ZONE_TH=[0.05,0.03,0.018];
 const FRUITS=['🍎','🍊','🍋','🍇','🍓','🍉'];
 const COLORS=['#FF6B9A','#FFB13D','#3BC9A9','#5AA9FF','#B983FF'];
 let wl=null;
+
+/* ============ danh sách trò chơi (phần HIỂN THỊ — tên, mô tả, cách chơi — nằm ở lib/games.ts của Next.js) ============
+   Trò mới đăng ký bằng registerGame() trong các file games-*.js với các hook:
+   needs 'pose'|'hand'|'face' (+ soft=có dự phòng bằng chuyển động), start(), begin() mỗi cấp, update(dt), draw(),
+   hud(), tap(x,y), intro, go, motion:false (không cần quét chuyển động khi đã có AI) */
+const GAMES={},GAME_LIST=[];
+function registerGame(g){ GAMES[g.id]=g; GAME_LIST.push(g); return g; }
+const NEEDS={pose:{chip:'🦴 Khung xương',mb:18},hand:{chip:'✋ Bàn tay',mb:20},face:{chip:'🙂 Khuôn mặt',mb:16}};
+const LOST_TXT={pose:'👀 Chưa thấy bé — lùi ra xa để camera thấy cả người nhé!',hand:'✋ Giơ bàn tay lên trước camera nhé!',face:'🙂 Đưa khuôn mặt vào giữa khung hình nhé!'};
+let aiPref=store.get('bv_ai','1')==='1';
+let skelOn=store.get('bv_skel','1')==='1';
+let useAI=false,lostShown=false;
+
+registerGame({id:'race',name:'Chạy Vượt Chướng Ngại',needs:'pose',soft:true,motion:false,touch:true,trackOpts:()=>({numPoses:playerCount===2?2:1})});
+registerGame({id:'pose',name:'Bé Tạo Dáng',needs:'pose',soft:true,motion:false,touch:true});
+registerGame({id:'bubbles',name:'Đập Bóng Vui',touch:true});
+registerGame({id:'colors',name:'Bắt Đúng Màu',touch:true});
+registerGame({id:'match',name:'Bé Ghép Đôi',touch:true});
 
 /* ---- hearts (bubbles / colors) ---- */
 let hearts=3,heartsMax=3;
@@ -408,6 +112,11 @@ const POSES=[
   {id:'both_side',zones:['LM','RM'],label:'Dang hai tay sang ngang!'},
   {id:'cross_1',zones:['LU','RM'],label:'Tay trái lên cao, tay phải sang ngang!'},
   {id:'cross_2',zones:['RU','LM'],label:'Tay phải lên cao, tay trái sang ngang!'},
+  // chỉ có khi dùng AI khung xương (cần thấy cả người): tư thế khó dần
+  {id:'hips',zones:[],aiOnly:1,minLevel:12,label:'Chống hai tay lên hông!'},
+  {id:'one_leg_l',zones:[],aiOnly:1,minLevel:15,label:'Co chân trái lên!'},
+  {id:'one_leg_r',zones:[],aiOnly:1,minLevel:15,label:'Co chân phải lên!'},
+  {id:'star',zones:[],aiOnly:1,minLevel:18,label:'Nhảy sao: giơ hai tay, dạng hai chân!'},
 ];
 const POSE_ART={
   up_r:{armL:'down',armR:'up'}, up_l:{armL:'up',armR:'down'},
@@ -415,9 +124,15 @@ const POSE_ART={
   head:{armL:'head',armR:'head'}, squat:{armL:'down',armR:'down',legs:'squat'},
   both_up:{armL:'up',armR:'up'}, both_side:{armL:'side',armR:'side'},
   cross_1:{armL:'up',armR:'side'}, cross_2:{armL:'side',armR:'up'},
+  hips:{armL:'hip',armR:'hip'},
+  one_leg_l:{armL:'down',armR:'down',legs:'oneL'}, one_leg_r:{armL:'down',armR:'down',legs:'oneR'},
+  star:{armL:'up',armR:'up',legs:'apart'},
 };
 let poseCur=null;
 let poseTAcc=0,poseTimeLimit=4,poseZoneLastActive={},poseResult=null,poseFeedT=0;
+let poseSig=null,poseHold=0,poseMatch=null;   // chế độ AI: tín hiệu khung xương, thời gian giữ đúng, kết quả từng tay/chân
+const poseAI=()=>useAI&&Track.active==='pose';
+const poseLimit=()=>poseTimeLimit+(poseAI()?0.8:0);
 
 /* ---- match mode (kiểu Pikachu: chọn 2 hình giống nhau) ---- */
 let matchCols=3,matchRows=2,matchTiles=[],matchSel=[],matchLastKey=null,matchCooldown=0;
@@ -435,7 +150,8 @@ let raceP1=null, raceP2=null, raceObstacle=null, raceApproach=1, raceGapT=1, rac
 let winsLeft=+store.get('bv_race_left','0')||0, winsRight=+store.get('bv_race_right','0')||0;
 function raceApproachTime(){ return lerp(3.6,1.9,lvlT()); }
 function raceObstaclesNeeded(){ return 2+Math.floor((level-1)/3); }
-function newRunner(animal){ return {animal,alive:true,cleared:0,upperT:9,lowerT:9,fullT:9,effort:0,fallT:0}; }
+function newRunner(animal){ return {animal,alive:true,cleared:0,upperT:9,lowerT:9,fullT:9,effort:0,fallT:0,ai:false}; }
+let raceSig={};   // tín hiệu khung xương theo bên (left/right/solo), giữ qua các cấp để khỏi phải hiệu chỉnh lại
 
 /* ---- music ---- */
 let musicPref=store.get('bv_music','1')==='1',musicRunning=false,musicNext=0,musicStep=0;
@@ -745,21 +461,38 @@ function updateFalling(dt){
 /* ============ pose mode ============ */
 function nextPose(){
   const tier = poseTierFor();
-  const pool = POSES.filter(p=>p.zones.length<=tier);
+  const ai = poseAI();
+  const pool = POSES.filter(p=>p.aiOnly?(ai&&level>=p.minLevel):p.zones.length<=tier);
   let next;
   do{next=pool[Math.random()*pool.length|0];}while(poseCur&&next.id===poseCur.id&&pool.length>1);
   poseCur=next; poseTAcc=0; poseTimeLimit=poseTimeLimitFor(); poseZoneLastActive={}; poseResult=null;
+  poseHold=0; poseMatch=null;
 }
 function updatePose(dt){
   if(!poseCur)return;
   if(poseResult){
     poseFeedT+=dt;
+    if(poseAI()){if(!poseSig)poseSig=Body.signals();poseSig.update(Track.body('solo'),performance.now())}
     if(poseFeedT>0.9){
       if(poseResult==='hit')levelUp(); else endGame();
     }
     return;
   }
   poseTAcc+=dt;
+  if(poseAI()){
+    const b=Track.body('solo');
+    if(!poseSig)poseSig=Body.signals();
+    poseSig.update(b,performance.now());
+    poseMatch=b?Body.matchPose(b,POSE_ART[poseCur.id],poseSig,level>=16):null;
+    if(poseMatch&&poseMatch.ok)poseHold+=dt; else poseHold=Math.max(0,poseHold-dt*2);
+    if(poseHold>=0.4){
+      poseResult='hit'; poseFeedT=0;
+      burstAt(W/2,H*0.37,'#2FBF9F',18); sPop(false);
+    }else if(poseTAcc>=poseLimit()){
+      poseResult='miss'; poseFeedT=0; sBuzz();
+    }
+    return;
+  }
   if(camOn){
     for(const z of poseCur.zones){if(zoneActive(z))poseZoneLastActive[z]=poseTAcc;}
   }
@@ -802,6 +535,13 @@ function drawFigure(cx,cy,s,armL,armR,legs,color){
   if(legs==='squat'){
     ctx.moveTo(0,hipY); ctx.lineTo(-s*0.28,hipY+s*0.22);
     ctx.moveTo(0,hipY); ctx.lineTo(s*0.28,hipY+s*0.22);
+  }else if(legs==='apart'){
+    ctx.moveTo(0,hipY); ctx.lineTo(-s*0.40,hipY+s*0.40);
+    ctx.moveTo(0,hipY); ctx.lineTo(s*0.40,hipY+s*0.40);
+  }else if(legs==='oneL'||legs==='oneR'){
+    const k=legs==='oneL'?-1:1;
+    ctx.moveTo(0,hipY); ctx.lineTo(k*s*0.30,hipY+s*0.18); ctx.lineTo(k*s*0.14,hipY+s*0.38);
+    ctx.moveTo(0,hipY); ctx.lineTo(-k*s*0.16,hipY+s*0.42);
   }else{
     ctx.moveTo(0,hipY); ctx.lineTo(-s*0.16,hipY+s*0.42);
     ctx.moveTo(0,hipY); ctx.lineTo(s*0.16,hipY+s*0.42);
@@ -814,6 +554,7 @@ function drawFigure(cx,cy,s,armL,armR,legs,color){
     if(type==='up')ctx.lineTo(dir*s*0.34,shoulderY-s*0.48);
     else if(type==='side')ctx.lineTo(dir*s*0.5,shoulderY+s*0.02);
     else if(type==='head')ctx.lineTo(dir*s*0.22,shoulderY-s*0.28);
+    else if(type==='hip'){ctx.lineTo(dir*s*0.34,shoulderY+s*0.24);ctx.lineTo(dir*s*0.12,hipY);}
     else ctx.lineTo(dir*s*0.12,shoulderY+s*0.38);
     ctx.stroke();
   }
@@ -825,22 +566,22 @@ function drawFigure(cx,cy,s,armL,armR,legs,color){
 }
 function drawPoseScene(){
   if(!poseCur)return;
-  for(const z of poseCur.zones){
+  if(!poseAI())for(const z of poseCur.zones){
     const active=(poseTAcc-(poseZoneLastActive[z]??-99))<0.7;
     drawZoneHint(z,active);
   }
-  const cx=W*0.5,cy=H*0.32,s=Math.min(W,H)*0.22;
+  const cx=W*0.5,cy=H*0.37,s=Math.min(W,H)*0.21;
   const P=POSE_ART[poseCur.id];
   drawFigure(cx,cy,s,P.armL,P.armR,P.legs||'stand', poseResult==='hit'?'#2FBF9F':(poseResult==='miss'?'#FF8A3D':'#12806A'));
   ctx.font="800 "+Math.round(Math.min(W,H)*0.045)+"px 'Baloo 2',sans-serif";
   ctx.textAlign='center'; ctx.textBaseline='alphabetic';
   ctx.lineWidth=6; ctx.strokeStyle='rgba(20,69,107,.5)'; ctx.fillStyle='#fff';
-  ctx.strokeText(poseCur.label,W/2,cy-s*1.15); ctx.fillText(poseCur.label,W/2,cy-s*1.15);
+  ctx.strokeText(poseCur.label,W/2,cy-s*1.0); ctx.fillText(poseCur.label,W/2,cy-s*1.0);
   if(poseResult){
     ctx.fillStyle = poseResult==='hit'?'#2FBF9F':'#FF8A3D';
     ctx.fillText(poseResult==='hit'?'Đúng rồi! 🎉':'Cố lên bé nhé! 💪', W/2, cy+s*1.3);
   }else{
-    const pct=Math.max(0,1-poseTAcc/poseTimeLimit);
+    const pct=Math.max(0,1-poseTAcc/poseLimit());
     const bw=Math.min(W*0.6,360),bx=W/2-bw/2,by=cy+s*0.9;
     roundRectPath(bx,by,bw,14,7); ctx.fillStyle='rgba(255,255,255,.55)'; ctx.fill();
     roundRectPath(bx,by,bw*pct,14,7); ctx.fillStyle='#2FBF9F'; ctx.fill();
@@ -955,6 +696,21 @@ function laneZone(side){ return side==='left'?[0,0.5]:[0.5,1]; }
 function updateRunnerSignals(p,side,dt){
   if(!p||!p.alive)return;
   p.upperT+=dt; p.lowerT+=dt; p.fullT+=dt;
+  if(useAI&&Track.active==='pose'){
+    // AI khung xương: nhảy = cả người bật lên, cúi = vai/hông hạ thấp, chạy nhanh = tay chân cử động mạnh
+    const key=playerCount===2?side:'solo';
+    const S=raceSig[key]||(raceSig[key]=Body.signals());
+    const b=Track.body(key);
+    S.update(b,performance.now());
+    p.ai=!!b;
+    if(b){
+      if(S.jump)p.upperT=0;
+      if(S.duck)p.lowerT=0;
+      if(S.run)p.fullT=0;
+      p.effort=Math.min(1,S.energy/2.5);
+    }else p.effort*=0.9;
+    return;
+  }
   if(!camOn)return;
   const [x0,x1]=laneZone(side);
   const dUp=zoneDensity(x0,0.05,x1,0.42);
@@ -1043,6 +799,11 @@ function drawLane(y0,y1,p,label){
     }
   }
   drawRunner(runnerX,cy,laneH*0.62,p);
+  if(useAI&&p.alive&&!p.ai&&state==='play'&&levelBannerT<=0){
+    ctx.font="800 "+Math.round(laneH*0.15)+"px 'Baloo 2',sans-serif";
+    ctx.fillStyle='#E14D5B'; ctx.textAlign='right'; ctx.textBaseline='alphabetic';
+    ctx.fillText('👀 Chưa thấy bé',x1-8,y0-8);
+  }
   if(!p.alive){
     ctx.font="800 "+Math.round(laneH*0.22)+"px 'Baloo 2',sans-serif";
     ctx.fillStyle='#E14D5B'; ctx.textAlign='center'; ctx.textBaseline='middle';
@@ -1172,39 +933,29 @@ function render(t){
   if(camOn&&video.readyState>=2)hasCam=drawCam(ctx,W,H);
   if(!hasCam)drawFallbackBg(t/1000);
   else{ctx.fillStyle='rgba(8,24,48,.16)';ctx.fillRect(0,0,W,H)}
-  if(camOn&&(state==='play'||state==='count'))drawSparkles();
+  const G=GAMES[mode];
+  if(camOn&&(state==='play'||state==='count')&&!(useAI&&Track.active))drawSparkles();
+  if(useAI&&skelOn&&Track.active&&(state==='play'||state==='count'||state==='pause')&&!(G&&G.skel===false))
+    Track.draw(ctx,W,H,G&&G.skel);
   if(state==='play'||state==='pause'){
     if(mode==='bubbles'||mode==='colors')drawObjs();
     else if(mode==='pose')drawPoseScene();
     else if(mode==='match')drawMatchScene();
     else if(mode==='race')drawRaceScene();
+    else if(G&&G.draw)G.draw();
   }
   drawParts();drawFloats();
   frame++;
 }
 
 /* ============ screens & flow ============ */
-const SCREENS=['menu','how','err','pauseS','endS','loading'];
+const SCREENS=['err','pauseS','endS','loading'];
 function hideAll(){
   for(const s of SCREENS)$(s).hidden=true;
   $('big').hidden=true;$('hud').hidden=true;
 }
-function paintBests(){
-  document.querySelectorAll('[data-best]').forEach(el=>{
-    const m=el.dataset.best;
-    if(m==='race2p'){
-      if(winsLeft+winsRight<=0){el.hidden=true;return}
-      el.hidden=false;
-      el.textContent='🏆 2 người: Trái '+winsLeft+' – '+winsRight+' Phải';
-      return;
-    }
-    const v=+store.get('bv_best_'+m,'0')||0;
-    if(v<=0){el.hidden=true;return}
-    el.hidden=false;
-    el.textContent = (m==='race'?'🏆 1 người — cấp cao nhất: ':'🏆 Cấp cao nhất: ')+v+(v>=MAX_LEVEL?' 🎉':'');
-  });
-}
 function introText(){
+  const G=GAMES[mode]; if(G&&G.intro)return typeof G.intro==='function'?G.intro():G.intro;
   if(mode==='bubbles')return 'Vẫy tay đập vỡ trái cây, né chú sâu nghịch ngợm nhé!';
   if(mode==='colors')return 'Nhìn màu ở trên rồi chỉ đập đúng quả cùng màu thôi nhé!';
   if(mode==='pose')return 'Nhìn hình rồi giơ tay, cúi người bắt chước y hệt nào!';
@@ -1214,14 +965,27 @@ function introText(){
     : 'Gặp chữ NHẢY thì nhảy lên, CÚI thì cúi xuống, CHẠY NHANH thì vận động thật mạnh nhé — sai động tác là thua đó!';
 }
 function goText(){
+  const G=GAMES[mode]; if(G&&G.go)return typeof G.go==='function'?G.go():G.go;
   if(mode==='bubbles')return 'Vẫy tay đập bóng nào! 👋';
   if(mode==='colors')return 'Đập đúng màu nào! 🎨';
   if(mode==='pose')return 'Tạo dáng thật đẹp nào! 🤸';
   if(mode==='match')return 'Tìm cặp giống nhau nào! 🔍';
   return 'Sẵn sàng... Chạy đi nào! 🏃';
 }
+function applyHud(o){
+  $('levelPill').hidden=o.level===false;
+  $('scorePill').hidden=o.score==null;
+  if(o.score!=null){$('scoreIcon').textContent=o.icon||'⭐';$('score').textContent=o.score}
+  $('heartsPill').hidden=!o.hearts;
+  if(o.hearts)renderHearts(o.hearts[0],o.hearts[1]);
+  $('timePill').hidden=o.time==null;
+  if(o.time!=null){$('timeIcon').textContent=o.timeIcon||'⏱';$('time').textContent=o.time;$('timePill').classList.toggle('low',!!o.low)}
+  $('targetPill').hidden=true;
+}
 function updateHudChrome(){
   $('levelNum').textContent=level;
+  const G=GAMES[mode];
+  if(G&&G.hud){applyHud(G.hud());return}
   if(mode==='race'){
     $('scorePill').hidden=true; $('heartsPill').hidden=true; $('targetPill').hidden=true; $('timePill').hidden=true;
     $('levelPill').hidden = playerCount===2;
@@ -1255,28 +1019,60 @@ function errText(e){
   return 'Có lỗi khi mở camera ('+(n||'không rõ')+'). Thử tải lại trang, hoặc chơi bằng chạm màn hình.';
 }
 
+function setLoading(msg,frac,fine){
+  $('loadMsg').innerHTML=msg;
+  $('loadBarWrap').hidden=frac==null; if(frac!=null)$('loadBar').style.width=Math.round(frac*100)+'%';
+  $('loadFine').hidden=!fine; if(fine)$('loadFine').textContent=fine;
+}
+let toastTimer=0;
+function toast(msg,ms){
+  const el=$('toast'); el.textContent=msg; el.hidden=false;
+  clearTimeout(toastTimer); toastTimer=setTimeout(()=>{el.hidden=true},ms||4200);
+}
 async function startGame(withCam){
   wantCam=withCam; mode=selectedMode;
+  const G=GAMES[mode]||{};
   hideAll();$('loading').hidden=!withCam;
+  Track.stop(); useAI=false; lostShown=false; $('lostHint').hidden=true;
   objs=[];parts=[];floats=[];
   poseCur=null;poseResult=null;
   matchTiles=[];
   level=1;
   if(withCam){
+    const wantAI=!!G.needs&&(!G.soft||aiPref)&&Track.supported();
+    setLoading('Đang mở camera…<br>Hãy chọn <b>Cho phép</b> nếu trình duyệt hỏi nhé!',wantAI?0.02:null,
+      wantAI&&!Track.ready(G.needs)?'Lần đầu game tải bộ nhận diện (khoảng '+NEEDS[G.needs].mb+' MB), những lần sau mở nhanh hơn nhiều.':'');
+    const aiP=wantAI?Track.use(G.needs,f=>setLoading('Đang nạp bộ nhận diện… '+Math.round(f*100)+'%',f,'Chỉ tải một lần, lần sau mở rất nhanh.'),
+      Object.assign({numPoses:1,numHands:2,numFaces:1,retry:Track.status[G.needs]==='failed'},typeof G.trackOpts==='function'?G.trackOpts():G.trackOpts)).catch(()=>false):Promise.resolve(false);
     try{
       if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia)throw {name:'NotFoundError'};
       await initCamera();
     }catch(e){
-      stopCamera();hideAll();
+      stopCamera();Track.stop();hideAll();
       $('errMsg').textContent=errText(e);
+      $('btnErrTouch').hidden=!G.touch;
       $('err').hidden=false;state='menu';
       return;
     }
+    if(wantAI){
+      useAI=await aiP;
+      if(!useAI){
+        if(!G.soft){
+          stopCamera();hideAll();
+          $('errMsg').textContent='Máy hoặc trình duyệt này chưa chạy được bộ nhận diện của trò "'+G.name+'" (cần Chrome, Safari hoặc Edge bản mới, và đủ bộ nhớ). Thử tải lại trang, đổi trình duyệt, hoặc chọn một trò khác nhé!';
+          $('btnErrTouch').hidden=!G.touch;
+          $('err').hidden=false;state='menu';return;
+        }
+        toast('Máy chưa chạy được AI nhận diện — chuyển sang chế độ camera cơ bản nhé!');
+      }
+    }
   }else stopCamera();
+  if(G.start)G.start();
   ac();lockWake();
   hideAll();
   $('hud').hidden=false;
   $('btnFlip').hidden=!withCam;
+  $('btnSkel').hidden=!(useAI&&(Track.active==='pose'||Track.active==='hand'));
   updateHudChrome();
   $('bigSub').textContent=introText();
   $('big').hidden=false;lastCount=-1;
@@ -1291,8 +1087,10 @@ function beginLevel(){
     nextPose();
   }else if(mode==='match'){
     genMatchGrid(); hearts=heartsMax=MATCH_LIVES;
-  }else{ // race
+  }else if(mode==='race'){
     beginRace();
+  }else if(GAMES[mode]&&GAMES[mode].begin){
+    GAMES[mode].begin();
   }
   updateHudChrome();
 }
@@ -1303,10 +1101,11 @@ function showBanner(text,seconds){
 }
 function beginPlay(){
   state='play'; level=1; lastTick=-1;
+  raceSig={}; poseSig=null; poseHold=0; poseMatch=null;
   beginLevel();
   showBanner(goText(),1.2);
   sCount(true);
-  startMusic();
+  if(!(GAMES[mode]&&GAMES[mode].music===false))startMusic();
 }
 function levelUp(){
   if(level>=MAX_LEVEL){ winGame(); return; }
@@ -1363,9 +1162,23 @@ function resumeGame(){
   state='play';lockWake();startMusic();
 }
 function goMenu(){
-  state='menu';stopCamera();freeWake();stopMusic();
-  hideAll();$('menu').hidden=false;
-  paintBests();
+  state='menu';stopCamera();Track.stop();useAI=false;freeWake();stopMusic();
+  $('lostHint').hidden=true;lostShown=false;
+  hideAll();
+  leaveStage();
+}
+/** đóng sân khấu chơi game, trả người dùng về trang web (Next.js) */
+function leaveStage(){
+  $('stage').hidden=true;document.body.classList.remove('playing');
+  try{if(document.fullscreenElement)document.exitFullscreen()}catch(e){}
+  if(window.BVApp&&window.BVApp.onExit)window.BVApp.onExit();
+}
+function updateLostHint(now){
+  const need=state==='play'&&useAI&&!!Track.active&&levelBannerT<=0&&!Track.seenRecently(Track.active,now);
+  if(need!==lostShown){
+    lostShown=need;const el=$('lostHint');el.hidden=!need;
+    if(need)el.textContent=LOST_TXT[Track.active]||'';
+  }
 }
 
 /* ============ main loop ============ */
@@ -1377,7 +1190,11 @@ function loop(t){
   resize();
   if(musicRunning)scheduleMusic();
   if(state==='menu'||state==='loading')return;
-  if(state==='count'||state==='play')analyze();
+  const G=GAMES[mode];
+  if(state==='count'||state==='play'){
+    if(!(Track.active&&G&&G.motion===false))analyze();   // trò đã có AI thì khỏi quét chuyển động cho nhẹ máy
+    if(Track.active)Track.update(video,now,W,H);
+  }
   if(state==='count'){
     const rem=countEnd-now;
     if(rem<=0){$('big').hidden=true;beginPlay()}
@@ -1404,8 +1221,10 @@ function loop(t){
       }else if(mode==='pose')updatePose(dt);
       else if(mode==='match')updateMatch(dt);
       else if(mode==='race')updateRace(dt);
+      else if(G&&G.update)G.update(dt);
     }
     updateHudChrome();
+    updateLostHint(now);
   }
   if(state!=='pause')stepFx(dt);
   render(t||now);
@@ -1416,6 +1235,8 @@ canvas.addEventListener('pointerdown',e=>{
   e.preventDefault();ac();
   if(state==='pause'){resumeGame();return}
   if(state!=='play')return;
+  const G=GAMES[mode];
+  if(G&&G.tap){G.tap(e.clientX/W,e.clientY/H,e);return}
   if(mode==='bubbles'||mode==='colors'){
     let bi=-1,bd=Infinity;
     for(let i=0;i<objs.length;i++){
@@ -1447,30 +1268,12 @@ canvas.addEventListener('pointerdown',e=>{
   }
 });
 
-document.querySelectorAll('.modeCard').forEach(el=>{
-  el.addEventListener('click',()=>{
-    selectedMode=el.dataset.mode;
-    document.querySelectorAll('.modeCard').forEach(c=>c.classList.toggle('sel',c===el));
-    $('racePlayersRow').hidden = selectedMode!=='race';
-  });
-});
-function paintPlayerCount(){
-  document.querySelectorAll('.sbtn[data-pc]').forEach(b=>b.classList.toggle('on',+b.dataset.pc===playerCount));
-}
-document.querySelectorAll('.sbtn[data-pc]').forEach(b=>{
-  b.addEventListener('click',()=>{playerCount=+b.dataset.pc;store.set('bv_race_pc',String(playerCount));paintPlayerCount()});
-});
-
-$('btnPlay').addEventListener('click',()=>startGame(true));
 $('btnRetry').addEventListener('click',()=>startGame(true));
-$('btnTouch').addEventListener('click',()=>startGame(false));
 $('btnErrTouch').addEventListener('click',()=>startGame(false));
 $('btnAgain').addEventListener('click',()=>startGame(wantCam));
 $('btnHome').addEventListener('click',goMenu);
 $('btnExit').addEventListener('click',goMenu);
 $('btnResume').addEventListener('click',resumeGame);
-$('btnHow').addEventListener('click',()=>{$('how').hidden=false});
-$('btnHowClose').addEventListener('click',()=>{$('how').hidden=true});
 
 function updMute(){$('btnMute').textContent=muted?'🔇':'🔊'}
 $('btnMute').addEventListener('click',()=>{muted=!muted;store.set('bv_mute',muted?'1':'0');updMute()});
@@ -1497,17 +1300,39 @@ $('btnFull').addEventListener('click',()=>{
   }catch(e){}
 });
 
-function paintSens(){
-  document.querySelectorAll('.sbtn[data-v]').forEach(b=>b.classList.toggle('on',+b.dataset.v===sens));
-}
-document.querySelectorAll('.sbtn[data-v]').forEach(b=>{
-  b.addEventListener('click',()=>{sens=+b.dataset.v;store.set('bv_sens',String(sens));paintSens()});
-});
-
 document.addEventListener('visibilitychange',()=>{
   if(document.hidden){if(state==='play')pauseGame()}
   else if(state==='play'||state==='count')lockWake();
 });
+
+/* ============ phím tắt & nút khung xương ============ */
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'&&state==='play')pauseGame();
+});
+$('btnSkel').addEventListener('click',()=>{skelOn=!skelOn;store.set('bv_skel',skelOn?'1':'0');$('btnSkel').classList.toggle('off',!skelOn)});
+
+/* ============ cầu nối với trang web Next.js ============ */
+window.BVApp={
+  ready:true,onExit:null,
+  configure(o){
+    o=o||{};
+    if(o.players===1||o.players===2){playerCount=o.players;store.set('bv_race_pc',String(playerCount))}
+    if(typeof o.ai==='boolean'){aiPref=o.ai;store.set('bv_ai',aiPref?'1':'0')}
+    if(o.sens===0||o.sens===1||o.sens===2){sens=o.sens;store.set('bv_sens',String(sens))}
+  },
+  /** mở sân khấu và bắt đầu chơi trò id (o.touch=true → chơi bằng chạm, không cần camera) */
+  play(id,o){
+    if(!GAMES[id])return false;
+    this.configure(o);
+    selectedMode=id;
+    $('stage').hidden=false;document.body.classList.add('playing');
+    startGame(!(o&&o.touch));
+    return true;
+  },
+  preload(id){const g=GAMES[id];if(g&&g.needs&&(!g.soft||aiPref))Track.preload(g.needs)},
+  exit(){goMenu()},
+  get state(){return state},
+};
 
 /* debug hook (đọc trạng thái khi kiểm thử) */
 window.BV={
@@ -1524,12 +1349,11 @@ window.BV={
   zoneActive(k){return zoneActive(k)},
   zoneDensity(k){const z=ZONES[k];return zoneDensity(z[0],z[1],z[2],z[3])},
   matchZoneActive(i){return zoneActiveRect(matchZoneRect(i,matchCols,matchRows))},
-  get race(){return {p1:raceP1&&{...raceP1},p2:raceP2&&{...raceP2},obstacle:raceObstacle,approach:raceApproach,winner:raceWinner,playerCount,winsLeft,winsRight}}
+  get race(){return {p1:raceP1&&{...raceP1},p2:raceP2&&{...raceP2},obstacle:raceObstacle,approach:raceApproach,winner:raceWinner,playerCount,winsLeft,winsRight}},
+  Track,GAMES,get G(){return GAMES[mode]},get useAI(){return useAI}
 };
 
 /* ============ boot ============ */
-resize();paintBests();paintSens();paintPlayerCount();updMute();updMusicBtn();
+resize();updMute();updMusicBtn();
+$('btnSkel').classList.toggle('off',!skelOn);
 requestAnimationFrame(loop);
-</script>
-</body>
-</html>
