@@ -50,7 +50,7 @@ const NEEDS={pose:{chip:'🦴 Khung xương',mb:18},hand:{chip:'✋ Bàn tay',mb
 const LOST_TXT={pose:'👀 Chưa thấy bé — lùi ra xa để camera thấy cả người nhé!',hand:'✋ Giơ bàn tay lên trước camera nhé!',face:'🙂 Đưa khuôn mặt vào giữa khung hình nhé!'};
 let aiPref=store.get('bv_ai','1')==='1';
 let skelOn=store.get('bv_skel','1')==='1';
-let useAI=false,lostShown=false;
+let useAI=false,lostShown=false,countStartAt=0;
 
 registerGame({id:'race',name:'Chạy Vượt Chướng Ngại',needs:'pose',soft:true,motion:false,touch:true,trackOpts:()=>({numPoses:playerCount===2?2:1})});
 registerGame({id:'pose',name:'Bé Tạo Dáng',needs:'pose',soft:true,motion:false,touch:true});
@@ -1078,7 +1078,8 @@ async function startGame(withCam){
   updateHudChrome();
   $('bigSub').textContent=introText();
   $('big').hidden=false;lastCount=-1;
-  countEnd=performance.now()+3200;
+  countEnd=performance.now()+3200;countStartAt=performance.now();aiBadT=0;aiSlowT=0;aiSeenOnce=false;
+  setCamBtn();
   state='count';
 }
 function beginLevel(){
@@ -1175,8 +1176,43 @@ function leaveStage(){
   try{if(document.fullscreenElement)document.exitFullscreen()}catch(e){}
   if(window.BVApp&&window.BVApp.onExit)window.BVApp.onExit();
 }
+/** AI nhận diện không dùng được (không thấy bé lâu / chạy quá chậm) → tự chuyển sang chế độ camera cơ bản (quét chuyển động) cho trò có dự phòng */
+let aiBadT=0,aiSlowT=0,aiSeenOnce=false;
+function setCamBtn(){
+  const G=GAMES[mode],b=$('btnCam');
+  const can=!!G&&!!G.needs&&!!G.soft&&camOn;
+  b.hidden=!can;
+  if(can){b.textContent=useAI?'🤖':'📷';b.title=useAI?'Đang dùng AI nhận diện — bấm để đổi sang camera cơ bản (bắt chuyển động)':'Đang dùng camera cơ bản — bấm để thử AI nhận diện';}
+}
+function fallbackToBasic(msg,persist){
+  if(!useAI)return;
+  useAI=false;Track.stop();prev=null;lostShown=false;$('lostHint').hidden=true;
+  $('btnSkel').hidden=true;
+  if(persist){aiPref=false;store.set('bv_ai','0')}
+  setCamBtn();toast(msg,6500);
+}
+function watchAI(now,dt){
+  const G=GAMES[mode];
+  if(!useAI||!Track.active||!G||!G.soft||levelBannerT>0){return}
+  if(Track.seenRecently(Track.active,now)){aiBadT=0;aiSeenOnce=true}else aiBadT+=dt;
+  if(Track.ms>150&&Track.fps<6&&Track.fps>0)aiSlowT+=dt;else aiSlowT=Math.max(0,aiSlowT-dt);
+  if(aiSlowT>4)fallbackToBasic('Máy hơi chậm với AI nên chuyển sang camera cơ bản (bắt chuyển động) nhé!',true);
+  else if(aiBadT>(aiSeenOnce?12:5))fallbackToBasic('Máy chưa nhận ra cả người bé nên chuyển sang camera cơ bản (bắt chuyển động) nhé! Muốn thử lại AI thì bấm nút 📷 góc phải.',false);
+}
+function toggleCamMode(){
+  const G=GAMES[mode];
+  if(!G||!G.needs||!G.soft||!camOn)return;
+  if(useAI){fallbackToBasic('Đã chuyển sang camera cơ bản (bắt chuyển động).',true);return}
+  toast('Đang bật AI nhận diện…',3000);
+  Track.use(G.needs,null,Object.assign({numPoses:1,numHands:2,numFaces:1},typeof G.trackOpts==='function'?G.trackOpts():G.trackOpts)).then(ok=>{
+    if(ok&&camOn&&state!=='menu'){useAI=true;aiPref=true;store.set('bv_ai','1');aiBadT=0;aiSlowT=0;aiSeenOnce=false;$('btnSkel').hidden=!(Track.active==='pose'||Track.active==='hand');setCamBtn();toast('Đã bật AI nhận diện 🤖',3000)}
+    else toast('Máy này chưa chạy được AI nhận diện.',4000);
+  });
+}
+$('btnCam').addEventListener('click',toggleCamMode);
 function updateLostHint(now){
-  const need=state==='play'&&useAI&&!!Track.active&&levelBannerT<=0&&!Track.seenRecently(Track.active,now);
+  const early=state==='count'&&performance.now()-countStartAt>1500;
+  const need=(state==='play'&&levelBannerT<=0||early)&&useAI&&!!Track.active&&!Track.seenRecently(Track.active,now);
   if(need!==lostShown){
     lostShown=need;const el=$('lostHint');el.hidden=!need;
     if(need)el.textContent=LOST_TXT[Track.active]||'';
@@ -1227,7 +1263,9 @@ function loop(t){
     }
     updateHudChrome();
     updateLostHint(now);
+    watchAI(now,dt);
   }
+  if(state==='count')updateLostHint(now);
   if(state!=='pause')stepFx(dt);
   render(t||now);
 }

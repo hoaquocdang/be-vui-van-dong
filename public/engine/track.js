@@ -60,7 +60,7 @@ const Track=(()=>{
   async function create(kind,ab){
     const Cls={pose:mp.PoseLandmarker,hand:mp.HandLandmarker,face:mp.FaceLandmarker}[kind];
     const extra={
-      pose:{numPoses:opt.numPoses,minPoseDetectionConfidence:.5,minPosePresenceConfidence:.5,minTrackingConfidence:.5},
+      pose:{numPoses:opt.numPoses,minPoseDetectionConfidence:.35,minPosePresenceConfidence:.35,minTrackingConfidence:.35},
       hand:{numHands:opt.numHands,minHandDetectionConfidence:.5,minHandPresenceConfidence:.5,minTrackingConfidence:.5},
       face:{numFaces:opt.numFaces,outputFaceBlendshapes:true,minFaceDetectionConfidence:.5,minFacePresenceConfidence:.5,minTrackingConfidence:.5},
     }[kind];
