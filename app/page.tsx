@@ -4,7 +4,6 @@ import GameGrid from '@/components/GameGrid';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import JsonLd from '@/components/JsonLd';
-import TvGuide from '@/components/TvGuide';
 import { FAQ } from '@/lib/faq';
 import { GAMES } from '@/lib/games';
 import { SITE, abs } from '@/lib/site';
@@ -70,7 +69,9 @@ export default function Home() {
             <Link className="btn" href="/#games">
               ▶ Chơi ngay
             </Link>
-            <TvGuide className="btn second">📺 Cách chiếu lên tivi</TvGuide>
+            <Link className="btn second" href="/#chieu-tivi">
+              📺 Cách chiếu lên tivi
+            </Link>
           </div>
           <ul className="trust">
             <li>🆓 Miễn phí</li>
@@ -127,6 +128,45 @@ export default function Home() {
               </h3>
               <p>Game nhìn khung xương, bàn tay, khuôn mặt của bé và phản hồi ngay. Qua cấp là tự động khó hơn, không cần chọn độ khó.</p>
             </div>
+          </div>
+        </section>
+
+        <section className="hubSec" id="chieu-tivi" aria-labelledby="tvH">
+          <h2 className="sec" id="tvH">
+            Chiếu game lên tivi 📺
+          </h2>
+          <p className="secSub">Chơi trên màn hình lớn thì cả nhà cùng xem, bé vận động thoải mái hơn. Chọn cách phù hợp với thiết bị của bạn:</p>
+          <div className="steps3">
+            <div className="stp">
+              <span className="big" aria-hidden="true">
+                🤖
+              </span>
+              <h3>Điện thoại Android</h3>
+              <p>
+                Vuốt từ trên xuống mở Cài đặt nhanh → chọn <b>Trình chiếu / Cast / Smart View</b> → chọn tivi. Dựng điện thoại dưới tivi, camera trước hướng về
+                phía người chơi.
+              </p>
+            </div>
+            <div className="stp">
+              <span className="big" aria-hidden="true">
+                🍏
+              </span>
+              <h3>iPhone / iPad</h3>
+              <p>
+                Mở Trung tâm điều khiển → <b>Phản chiếu màn hình</b> (AirPlay) → chọn tivi. Tivi cần hỗ trợ AirPlay 2 hoặc có Apple TV.
+              </p>
+            </div>
+            <div className="stp">
+              <span className="big" aria-hidden="true">
+                💻
+              </span>
+              <h3>Laptop + cáp HDMI</h3>
+              <p>Mở trang web trên laptop có webcam, cắm HDMI sang tivi, chọn chế độ nhân đôi màn hình.</p>
+            </div>
+          </div>
+          <div className="tipbox" style={{ marginTop: 14, maxWidth: 820 }}>
+            💡 Xoay ngang điện thoại trước khi chiếu • đứng cách camera 1,5–2 m • phòng đủ sáng • game không nhận bé → thử &quot;Camera cơ bản&quot; hoặc tăng độ nhạy
+            ở trang giới thiệu của trò.
           </div>
         </section>
 

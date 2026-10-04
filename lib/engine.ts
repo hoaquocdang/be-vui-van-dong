@@ -26,52 +26,22 @@ declare global {
   interface Window {
     BVApp?: BVApp;
     __bvLoad?: () => Promise<void>;
+    __bvLoadEngine?: (ok?: () => void, fail?: (e: Error) => void) => void;
   }
 }
 
-const BUILD = process.env.NEXT_PUBLIC_BUILD ?? '0';
-/** thứ tự nạp rất quan trọng: engine.js định nghĩa các hàm chung mà các file trò chơi dùng */
-const FILES = [
-  'track.js',
-  'engine.js',
-  'ai-body.js',
-  'games-lib.js',
-  'games-body.js',
-  'games-hand.js',
-  'games-run.js',
-  'games-run2.js',
-  'games-reach.js',
-  'games-reach2.js',
-  'games-fit.js',
-  'games-fit2.js',
-  'games-face.js',
-  'games-hand2.js',
-];
-
-function loadScript(src: string): Promise<void> {
-  return new Promise((resolve, reject) => {
-    const s = document.createElement('script');
-    s.src = src;
-    s.async = false;
-    s.onload = () => resolve();
-    s.onerror = () => reject(new Error('Không tải được ' + src));
-    document.head.appendChild(s);
-  });
-}
-
-let loading: Promise<void> | null = null;
-
+/** Bộ nạp engine nằm trong lib/boot.js (nhúng vào <head>, chạy độc lập với React). Ở đây chỉ bọc lại thành Promise. */
 export function loadEngine(): Promise<void> {
   if (typeof window === 'undefined') return Promise.reject(new Error('Chỉ chạy trên trình duyệt'));
   if (window.BVApp?.ready) return Promise.resolve();
-  if (!loading) {
-    // tạo thẻ <script> cùng lúc (async=false → tải song song nhưng chạy đúng thứ tự khai báo)
-    loading = Promise.all(FILES.map((f) => loadScript(`/engine/${f}?v=${BUILD}`))).then(() => undefined).catch((e) => {
-      loading = null; // cho phép thử lại
-      throw e;
-    });
-  }
-  return loading;
+  return new Promise((resolve, reject) => {
+    const boot = window.__bvLoadEngine;
+    if (!boot) {
+      reject(new Error('Chưa có bộ nạp engine'));
+      return;
+    }
+    boot(() => resolve(), (e) => reject(e));
+  });
 }
 
 /** nạp engine, mở sân khấu và bắt đầu chơi */

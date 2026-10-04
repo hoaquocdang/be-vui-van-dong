@@ -11,7 +11,8 @@ Game vận động cho bé 4–6 tuổi chơi qua camera điện thoại / webca
 |---|---|
 | `lib/games.ts` | **Nguồn dữ liệu duy nhất** cho phần hiển thị: tên, mô tả, cách chơi, nhóm, icon của từng trò → trang chủ, `/games/[slug]`, sitemap, JSON-LD |
 | `app/`, `components/` | Trang Next.js (SSG). `GameStage` dựng sân khấu canvas/HUD một lần, engine tự điều khiển |
-| `lib/engine.ts` | Nạp lười các file trong `public/engine/` (thứ tự `FILES` quan trọng), `playGame()` |
+| `scripts/boot.src.js` → `lib/bootScript.ts` | Mã **chạy độc lập với React**, nhúng vào `<head>`: nạp engine (danh sách + thứ tự `FILES` ở đây), xử lý nút `data-bv-play` (nút chơi vẫn bấm được trên máy tính bảng / trình duyệt cũ), cảnh báo khi mở trong Zalo/Facebook. Sửa `scripts/boot.src.js`; `lib/bootScript.ts` được **tự sinh** bởi `scripts/sync-boot.mjs` mỗi lần `npm run dev` / `npm run build` |
+| `lib/engine.ts` | Bọc bộ nạp của boot thành Promise, `playGame()` |
 | `public/engine/` | Engine chơi game viết bằng JS thuần (các file dùng chung biến global): `engine.js` (vòng lặp, camera, âm thanh, trò cũ), `track.js` (MediaPipe), `ai-body.js` (nhảy/cúi/tạo dáng), `games-lib.js` (tiện ích chung), `games-*.js` (các trò) |
 | `public/vendor`, `public/models` | MediaPipe Tasks Vision + model (khung xương, bàn tay, khuôn mặt) tự lưu, không gọi CDN |
 | `public/_test` | Bộ test trong trình duyệt (camera giả, bot) — **không commit** |
@@ -19,7 +20,7 @@ Game vận động cho bé 4–6 tuổi chơi qua camera điện thoại / webca
 
 ## Thêm một trò mới
 
-1. Viết `registerGame({id, name, needs, soft, motion, touch, trackOpts, begin(), update(dt), draw(), hud(), tap(), ...})` trong một file `public/engine/games-*.js` (xem các trò có sẵn làm mẫu), thêm file vào `FILES` trong `lib/engine.ts`.
+1. Viết `registerGame({id, name, needs, soft, motion, touch, trackOpts, begin(), update(dt), draw(), hud(), tap(), ...})` trong một file `public/engine/games-*.js` (xem các trò có sẵn làm mẫu), thêm file vào `FILES` trong `scripts/boot.src.js` (nhớ chạy `node scripts/sync-boot.mjs`).
 2. Thêm một mục cùng `id` vào `lib/games.ts` (tên, mô tả, cách chơi, nhóm…).
 3. `npm run build` → chạy `/seo-check` → ghi `.seo-ok` → `git push`.
 

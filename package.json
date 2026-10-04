@@ -4,8 +4,8 @@
   "private": true,
   "description": "Bé Vui Vận Động – game vận động cho bé 4-6 tuổi chơi qua camera điện thoại",
   "scripts": {
-    "dev": "next dev -p 3100",
-    "build": "next build",
+    "dev": "node scripts/sync-boot.mjs && next dev -p 3100",
+    "build": "node scripts/sync-boot.mjs && next build",
     "start": "next start -p 3100"
   },
   "dependencies": {

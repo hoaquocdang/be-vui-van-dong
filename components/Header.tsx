@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import TvGuide from './TvGuide';
 
 export default function Header() {
   return (
@@ -16,7 +15,7 @@ export default function Header() {
             Trò chơi
           </Link>
           <Link href="/#cach-choi">Cách chơi</Link>
-          <TvGuide>Chiếu lên tivi</TvGuide>
+          <Link href="/#chieu-tivi">Chiếu lên tivi</Link>
           <Link href="/#hoi-dap">Hỏi đáp</Link>
         </nav>
       </div>

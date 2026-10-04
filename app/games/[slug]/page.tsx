@@ -157,7 +157,10 @@ export default async function GamePage({ params }: Props) {
                 <li>📏 {game.dist}.</li>
                 <li>💡 Phòng đủ sáng, đừng đứng ngược sáng trước cửa sổ.</li>
                 <li>👕 Áo khác màu nền, trong khung hình chỉ có người chơi.</li>
-                <li>📱 Dựng điện thoại nằm ngang, camera trước hướng về phía bé. Có thể chiếu lên tivi cho cả nhà cùng xem.</li>
+                <li>
+                  📱 Dựng điện thoại nằm ngang, camera trước hướng về phía bé.{' '}
+                  <Link href="/#chieu-tivi">Xem cách chiếu lên tivi</Link> cho cả nhà cùng xem.
+                </li>
               </ul>
             </div>
           </div>
