@@ -9,11 +9,14 @@ export interface PlayOpts {
   /** true = dùng AI nhận diện, false = camera cơ bản (phát hiện chuyển động) */
   ai?: boolean;
   sens?: 0 | 1 | 2;
+  /** gọi khi bé bấm "Chọn trò khác" ở màn hình kết thúc */
+  onHome?: () => void;
 }
 
 interface BVApp {
   ready: boolean;
   play(id: string, o?: PlayOpts): boolean;
+  state?: string;
   configure(o: PlayOpts): void;
   preload(id: string): void;
   exit(): void;

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { TRACKERS, type Game } from '@/lib/games';
 import { loadEngine, playGame, preloadGame } from '@/lib/engine';
 import { store } from '@/lib/util';
@@ -13,6 +14,7 @@ export default function GamePanel({ game }: { game: Game }) {
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState('');
   const [noCam, setNoCam] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     setPlayers(store.get('bv_race_pc', '1') === '2' ? 2 : 1);
@@ -43,7 +45,7 @@ export default function GamePanel({ game }: { game: Game }) {
     setErr('');
     setBusy(true);
     try {
-      await playGame(game.id, { touch, players, ai, sens });
+      await playGame(game.id, { touch, players, ai, sens, onHome: () => router.push('/#games') });
     } catch {
       setErr('Không tải được phần chơi game. Kiểm tra kết nối mạng rồi thử lại nhé!');
     } finally {

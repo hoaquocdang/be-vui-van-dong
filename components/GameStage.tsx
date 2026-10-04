@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import { STAGE_HTML } from '@/lib/stageHtml';
 import { loadEngine } from '@/lib/engine';
 
@@ -10,6 +11,12 @@ import { loadEngine } from '@/lib/engine';
  * (dangerouslySetInnerHTML) và không đụng tới nữa. Mặc định ẩn; engine tự hiện khi bắt đầu chơi.
  */
 export default function GameStage() {
+  const pathname = usePathname();
+  // đổi trang (nút Back, bấm liên kết…) khi đang chơi → dừng game và nhả camera
+  useEffect(() => {
+    const app = window.BVApp;
+    if (app && app.state && app.state !== 'menu') app.exit();
+  }, [pathname]);
   useEffect(() => {
     window.__bvLoad = loadEngine; // phục vụ kiểm thử tự động
   }, []);

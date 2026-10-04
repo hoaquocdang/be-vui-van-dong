@@ -1070,6 +1070,7 @@ async function startGame(withCam){
   }else stopCamera();
   if(G.start)G.start();
   ac();lockWake();
+  if(window.innerHeight>window.innerWidth*1.1)toast('📱 Xoay ngang điện thoại để chơi thoải mái hơn nhé!',5200);
   hideAll();
   $('hud').hidden=false;
   $('btnFlip').hidden=!withCam;
@@ -1272,7 +1273,7 @@ canvas.addEventListener('pointerdown',e=>{
 $('btnRetry').addEventListener('click',()=>startGame(true));
 $('btnErrTouch').addEventListener('click',()=>startGame(false));
 $('btnAgain').addEventListener('click',()=>startGame(wantCam));
-$('btnHome').addEventListener('click',goMenu);
+$('btnHome').addEventListener('click',()=>{goMenu();if(window.BVApp&&window.BVApp.onHome)window.BVApp.onHome()});
 $('btnExit').addEventListener('click',goMenu);
 $('btnResume').addEventListener('click',resumeGame);
 
@@ -1314,7 +1315,7 @@ $('btnSkel').addEventListener('click',()=>{skelOn=!skelOn;store.set('bv_skel',sk
 
 /* ============ cầu nối với trang web Next.js ============ */
 window.BVApp={
-  ready:true,onExit:null,
+  ready:true,onExit:null,onHome:null,
   configure(o){
     o=o||{};
     if(o.players===1||o.players===2){playerCount=o.players;store.set('bv_race_pc',String(playerCount))}
@@ -1325,7 +1326,7 @@ window.BVApp={
   play(id,o){
     if(!GAMES[id])return false;
     this.configure(o);
-    selectedMode=id;
+    selectedMode=id;this.onHome=(o&&o.onHome)||null;
     $('stage').hidden=false;document.body.classList.add('playing');
     startGame(!(o&&o.touch));
     return true;
